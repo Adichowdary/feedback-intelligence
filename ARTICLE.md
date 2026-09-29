@@ -393,6 +393,7 @@ Instead of treating customer complaints as disposable, isolated tickets, Vera li
 - **Screenshot 3 (Memory Bank Growth):** Chart.js animated memory graph at `/demo` scaling from ~60 to 285+ verified observations.
 - **Screenshot 4 (Aha! Moment & Timeline):** The 4-stage visual chronological timeline and Before/After comparison at Step 4.
 - **Screenshot 5 (Ask with Reflect):** Conversational chat at `/ask` with purple `areflect()` deep analysis badge and verbatim citations.
-- **Live Demo URL:** `http://localhost:8000/demo`
+- **Live Web Application:** [https://vera-njlr.onrender.com](https://vera-njlr.onrender.com)
+- **Live Interactive Demo:** [https://vera-njlr.onrender.com/demo](https://vera-njlr.onrender.com/demo)
+- **Interactive Chat:** [https://vera-njlr.onrender.com/ask](https://vera-njlr.onrender.com/ask)
 - **Submission Link:** [Google Form Submission](https://forms.gle/cD7fCnPnkdVm2sH78)
-- **Built for:** HackwithHyderabad 3.0 (Track: Agentic Memory & Reasoning)

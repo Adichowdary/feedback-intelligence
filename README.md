@@ -239,8 +239,10 @@ feedback-intelligence/
 
 ---
 
-## 👥 HackwithHyderabad 3.0 Submission Info
+## 👥 Project & Live Demo Links
 
-- **Project:** Vera (User Feedback Intelligence Agent)
-- **Memory Engine:** Hindsight (`hindsight-all`) embedded memory bank
+- **Live Web Application:** [https://vera-njlr.onrender.com](https://vera-njlr.onrender.com)
+- **Live Interactive Demo:** [https://vera-njlr.onrender.com/demo](https://vera-njlr.onrender.com/demo)
+- **Live Ask Agent:** [https://vera-njlr.onrender.com/ask](https://vera-njlr.onrender.com/ask)
+- **Memory Engine:** Hindsight (`hindsight-all`) long-term memory bank
 - **Evaluation Form:** [Google Form Submission](https://forms.gle/cD7fCnPnkdVm2sH78)
