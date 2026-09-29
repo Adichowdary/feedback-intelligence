@@ -768,9 +768,11 @@ async def reset_demo(request: Request):
 
 if __name__ == "__main__":
     import uvicorn
+    import os
+    port = int(os.environ.get("PORT", settings.PORT or settings.APP_PORT))
     uvicorn.run(
         "main:app",
         host=settings.APP_HOST,
-        port=settings.APP_PORT,
+        port=port,
         reload=settings.DEBUG
     )

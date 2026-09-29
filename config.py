@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     # App Configuration
     APP_HOST: str = "0.0.0.0"
     APP_PORT: int = 8000
+    PORT: Optional[int] = None
     DEBUG: bool = True
 
     # Set to true to boot the embedded Hindsight server (needs a real OpenAI key or Codex auth)
