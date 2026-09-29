@@ -1,4 +1,4 @@
-# 🎙️ User Feedback Intelligence Agent — Demo Presentation Script
+# 🎙️ Vera: AI Feedback Intelligence Agent — Demo Presentation Script
 > **Presentation & Video Narration Guide for HackwithHyderabad 3.0**  
 > *Target Duration: 3 - 5 Minutes*  
 > *Live Demo URL: `http://localhost:8000/demo`*
@@ -21,7 +21,7 @@
 
 **[Visual: Start on Landing Page `http://localhost:8000/` in clean fullscreen browser]**
 
-> *"Hello judges and fellow hackers! We are presenting the **User Feedback Intelligence Agent** for HackwithHyderabad 3.0.*
+> *"Hello judges and fellow hackers! We are presenting **Vera**, our **AI Feedback Intelligence Agent** for HackwithHyderabad 3.0.*
 >
 > *Every software product receives thousands of user feedback points across support tickets, in-app reviews, and customer calls. But traditional AI agents are fundamentally stateless. When you ask them about an issue, they only see whatever is crammed into their immediate prompt window.*
 >

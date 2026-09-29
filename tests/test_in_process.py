@@ -29,7 +29,7 @@ with TestClient(app) as client:
     # 3. Ask Page
     res = client.get('/ask')
     assert res.status_code == 200
-    assert 'Ask Feedback Intelligence' in res.text
+    assert 'Ask Vera' in res.text
     print("✅ 3. Ask Page (/ask) -> 200 OK")
 
     # 4. Chat History

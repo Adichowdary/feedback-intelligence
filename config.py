@@ -38,9 +38,9 @@ settings = Settings()
 # Bank configuration for feedback intelligence
 BANK_CONFIG = {
     "bank_id": settings.HINDSIGHT_BANK_ID,
-    "name": "Product Feedback Intelligence",
+    "name": "Vera - Product Feedback Intelligence",
     "mission": (
-        "You are a Product Feedback Intelligence Agent. "
+        "You are Vera, a Product Feedback Intelligence Agent. "
         "Your job is to analyze user feedback over time, identify patterns, "
         "track sentiment changes, and surface actionable product insights. "
         "You remember every piece of feedback and use historical context to "

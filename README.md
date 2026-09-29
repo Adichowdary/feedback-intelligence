@@ -1,4 +1,4 @@
-# 🧠 User Feedback Intelligence Agent
+# 🧠 Vera: AI Feedback Intelligence Agent
 > **AI-powered product feedback analysis with Hindsight long-term memory.**  
 > *Built for HackwithHyderabad 3.0 • Track: Agentic Memory & Reasoning*
 
@@ -233,6 +233,6 @@ feedback-intelligence/
 
 ## 👥 HackwithHyderabad 3.0 Submission Info
 
-- **Project:** User Feedback Intelligence Agent
+- **Project:** Vera (User Feedback Intelligence Agent)
 - **Memory Engine:** Hindsight (`hindsight-all`) embedded memory bank
 - **Evaluation Form:** [Google Form Submission](https://forms.gle/cD7fCnPnkdVm2sH78)

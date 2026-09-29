@@ -61,8 +61,8 @@ class AgentService:
         return any(trigger in q_lower for trigger in reflect_triggers)
 
     def _build_system_prompt(self) -> str:
-        """Build the system prompt for the feedback intelligence agent"""
-        return """You are a Product Feedback Intelligence Agent powered by Hindsight memory.
+        """Build the system prompt for Vera, the feedback intelligence agent"""
+        return """You are Vera, a Product Feedback Intelligence Agent powered by Hindsight memory.
 
 Your role is to analyze user feedback over time and provide evidence-based insights. You have access to historical feedback through Hindsight's memory system.
 

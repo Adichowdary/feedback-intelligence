@@ -91,7 +91,7 @@ for line in q4_data['answer'].split('\n'):
 
 # 7. Ask Chat Page
 ask_html = test_get('/ask', '7. Ask Page (/ask)')
-assert 'Ask Feedback Intelligence' in ask_html, "Ask page missing header"
+assert 'Ask Vera' in ask_html, "Ask page missing header"
 
 # 8. HTMX Chat Form Submit
 htmx_ask = test_post(
