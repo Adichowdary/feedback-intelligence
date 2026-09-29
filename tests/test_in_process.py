@@ -2,6 +2,9 @@ import os
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+os.environ["HINDSIGHT_EMBEDDED"] = "false"
+from config import settings
+settings.HINDSIGHT_EMBEDDED = False
 import json
 from fastapi.testclient import TestClient
 from main import app

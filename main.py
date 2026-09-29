@@ -46,10 +46,13 @@ async def lifespan(app: FastAPI):
             hindsight_server.__enter__()
             logger.info(f"Hindsight server running at: {hindsight_server.url}")
         except Exception as e:
-            logger.warning(f"Note on Hindsight server startup: {e}")
+            logger.warning(f"Hindsight embedded server failed to start: {e}")
+            logger.info("Falling back to local mode (no Hindsight server)")
             hindsight_server = None
-
-        client = get_hindsight_client()
+            # Reset embedded flag so services know we're in local mode
+            settings.HINDSIGHT_EMBEDDED = False
+        else:
+            client = get_hindsight_client()
     else:
         logger.info("Hindsight disabled (local mode) - set HINDSIGHT_URL or HINDSIGHT_EMBEDDED=true to enable")
 
@@ -459,9 +462,10 @@ async def get_chat_history():
 async def ask_agent(
     request: Request,
     question: Optional[str] = Form(None),
-    budget: Optional[str] = Form("high")
+    budget: Optional[str] = Form("high"),
+    mode: Optional[str] = Form("recall")
 ):
-    """Ask the agent a question - supports HTMX form or JSON API"""
+    """Ask the agent a question - supports HTMX form or JSON API with recall vs reflect modes"""
     if not agent_service:
         raise HTTPException(status_code=503, detail="Service not initialized")
     
@@ -470,6 +474,7 @@ async def ask_agent(
         body = await request.json()
         question = body.get("question", "")
         budget = body.get("budget", "high")
+        mode = body.get("mode", "recall")
 
     if not question:
         if "hx-request" in request.headers:
@@ -478,9 +483,11 @@ async def ask_agent(
             """)
         raise HTTPException(status_code=400, detail="Question is required")
 
+    force_reflect = (mode == "reflect")
     result = await agent_service.ask(
         question=question,
-        budget=budget or "high"
+        budget=budget or "high",
+        force_reflect=force_reflect
     )
 
     rendered_answer = markdown.markdown(
@@ -521,7 +528,9 @@ async def ask_agent(
             """
 
         mode_badge = ""
-        if result.get("mode") == "live_openai":
+        if result.get("mode") == "hindsight_reflect" or mode == "reflect":
+            mode_badge = '<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] bg-purple-100 text-purple-800 font-bold border border-purple-200">⚡ Hindsight areflect() Deep Analysis</span>'
+        elif result.get("mode") == "live_openai":
             mode_badge = '<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] bg-green-100 text-green-800 font-medium">● GPT-4o-mini Live</span>'
         elif result.get("hindsight_recalled"):
             mode_badge = '<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] bg-blue-100 text-blue-800 font-medium">● Hindsight RECALL + TEMPR</span>'

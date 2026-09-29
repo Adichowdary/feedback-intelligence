@@ -48,6 +48,18 @@ class AgentService:
                 self._wrapped_client = None
         return self._wrapped_client
 
+    def _should_use_reflect(self, question: str) -> bool:
+        """Detect if a question requires deep analysis (reflect) vs simple lookup (recall)"""
+        q_lower = question.lower()
+        reflect_triggers = [
+            "how has", "changed over time", "evolv", "trend", "trajectory",
+            "compared", "before and after", "before vs after", "pre- vs post",
+            "sentiment change", "improved", "worsened", "shifted",
+            "pattern", "root cause", "why did", "what changed",
+            "historical", "over months", "over weeks", "timeline"
+        ]
+        return any(trigger in q_lower for trigger in reflect_triggers)
+
     def _build_system_prompt(self) -> str:
         """Build the system prompt for the feedback intelligence agent"""
         return """You are a Product Feedback Intelligence Agent powered by Hindsight memory.
@@ -72,7 +84,8 @@ Format your answers clearly with:
         self,
         question: str,
         budget: str = "high",
-        types: List[str] = None
+        types: List[str] = None,
+        force_reflect: bool = False
     ) -> Dict[str, Any]:
         """Ask the agent a question using Hindsight recall + LLM reasoning with seamless fallback"""
         
@@ -82,44 +95,68 @@ Format your answers clearly with:
         recalled_memories = []
         evidence = []
         
-        # 1. Try Hindsight native async recall (only if a Hindsight client + API key are configured)
+        # 1. Detect if this is a deep analysis question that should use reflect
+        use_reflect = force_reflect or self._should_use_reflect(question)
+        
+        # 2. Try Hindsight native async recall/reflect (only if a Hindsight client + API key are configured)
         hindsight_key = settings.HINDSIGHT_LLM_API_KEY or os.environ.get("OPENAI_API_KEY")
         use_hindsight = self.client is not None and hindsight_key and "dummy" not in hindsight_key.lower()
         hindsight_recalled = False
+        hindsight_reflected = False
         
         if use_hindsight:
-            try:
-                recall_response = await self.client.arecall(
-                    bank_id=self.bank_id,
-                    query=question,
-                    types=types,
-                    budget=budget,
-                    max_tokens=4096,
-                    prefer_observations=True
-                )
-                if hasattr(recall_response, "results") and recall_response.results:
-                    hindsight_recalled = True
-                    for memory in recall_response.results:
-                        tags = getattr(memory, "tags", []) or []
-                        area = "unknown"
-                        src = "unknown"
-                        for tag in tags:
-                            if tag.startswith("product_area:"):
-                                area = tag.replace("product_area:", "")
-                            elif tag.startswith("source:"):
-                                src = tag.replace("source:", "")
-                        date_val = getattr(memory, "occurred_start", None) or getattr(memory, "mentioned_at", None) or "2025-04"
-                        evidence.append({
-                            "id": getattr(memory, "id", "mem_1"),
-                            "text": getattr(memory, "text", ""),
-                            "type": getattr(memory, "type", "observation"),
-                            "product_area": area,
-                            "source": src,
-                            "date": str(date_val),
-                            "score": 0.95
-                        })
-            except Exception as e:
-                logger.info(f"Hindsight recall fallback note: {e}")
+            # Try reflect first for deep analysis questions (trends, evolution, comparison)
+            if use_reflect:
+                try:
+                    reflect_response = await self.client.areflect(
+                        bank_id=self.bank_id,
+                        query=question,
+                        budget=budget,
+                        max_tokens=4096,
+                    )
+                    if hasattr(reflect_response, "text") and reflect_response.text:
+                        hindsight_reflected = True
+                        # Use reflect response directly as the answer
+                        answer = reflect_response.text
+                        mode = "hindsight_reflect"
+                        logger.info(f"Hindsight reflect succeeded for deep analysis question")
+                except Exception as e:
+                    logger.info(f"Hindsight reflect fallback note: {e}")
+            
+            # Fall back to recall if reflect wasn't used or failed
+            if not hindsight_reflected:
+                try:
+                    recall_response = await self.client.arecall(
+                        bank_id=self.bank_id,
+                        query=question,
+                        types=types,
+                        budget=budget,
+                        max_tokens=4096,
+                        prefer_observations=True
+                    )
+                    if hasattr(recall_response, "results") and recall_response.results:
+                        hindsight_recalled = True
+                        for memory in recall_response.results:
+                            tags = getattr(memory, "tags", []) or []
+                            area = "unknown"
+                            src = "unknown"
+                            for tag in tags:
+                                if tag.startswith("product_area:"):
+                                    area = tag.replace("product_area:", "")
+                                elif tag.startswith("source:"):
+                                    src = tag.replace("source:", "")
+                            date_val = getattr(memory, "occurred_start", None) or getattr(memory, "mentioned_at", None) or "2025-04"
+                            evidence.append({
+                                "id": getattr(memory, "id", "mem_1"),
+                                "text": getattr(memory, "text", ""),
+                                "type": getattr(memory, "type", "observation"),
+                                "product_area": area,
+                                "source": src,
+                                "date": str(date_val),
+                                "score": 0.95
+                            })
+                except Exception as e:
+                    logger.info(f"Hindsight recall fallback note: {e}")
         else:
             logger.debug("Skipping Hindsight recall (no valid API key) - using local store")
         
@@ -175,12 +212,12 @@ Format your answers clearly with:
                     "score": round(min(0.99, 0.6 + (score * 0.08)), 2)
                 })
 
-        # 3. Formulate the answer
+        # 3. Formulate the answer (skip if reflect already provided one)
+        answer = answer if hindsight_reflected else None
+        mode = mode if hindsight_reflected else "hindsight_synthesis"
         llm_client = self._get_wrapped_client()
-        answer = None
-        mode = "hindsight_synthesis"
 
-        if llm_client:
+        if not hindsight_reflected and llm_client:
             try:
                 memories_text = "\n".join([
                     f"[{i+1}] ({e['date'][:10]}) [{e['product_area'].upper()} via {e['source']}] {e['text']}"
@@ -212,7 +249,8 @@ Format your answers clearly with:
             "memory_count": len(evidence),
             "recall_budget": budget,
             "mode": mode,
-            "hindsight_recalled": hindsight_recalled
+            "hindsight_recalled": hindsight_recalled,
+            "hindsight_reflected": hindsight_reflected
         }
 
     def _synthesize_reasoning(self, question: str, evidence: List[Dict[str, Any]], all_feedback: List[Dict[str, Any]]) -> str:

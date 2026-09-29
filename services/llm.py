@@ -18,11 +18,28 @@ def get_hindsight_server() -> HindsightServer:
     global _hindsight_server
     
     if _hindsight_server is None:
-        _hindsight_server = HindsightServer(
-            llm_provider=settings.HINDSIGHT_LLM_PROVIDER,
-            llm_model=settings.HINDSIGHT_LLM_MODEL,
-            llm_api_key=settings.HINDSIGHT_LLM_API_KEY or os.environ.get("OPENAI_API_KEY")
-        )
+        provider = settings.HINDSIGHT_LLM_PROVIDER
+        model = settings.HINDSIGHT_LLM_MODEL
+        
+        # Use Codex model if provider is openai-codex
+        if provider == "openai-codex":
+            model = settings.HINDSIGHT_CODEX_MODEL
+        
+        kwargs = {
+            "llm_provider": provider,
+            "llm_model": model,
+        }
+        
+        # openai-codex reads auth from ~/.codex/auth.json (or CODEX_HOME)
+        # No API key needed - omit llm_api_key for codex provider
+        if provider != "openai-codex":
+            kwargs["llm_api_key"] = settings.HINDSIGHT_LLM_API_KEY or os.environ.get("OPENAI_API_KEY")
+        
+        # Set CODEX_HOME if configured (must be set before HindsightServer init)
+        if settings.CODEX_HOME:
+            os.environ["CODEX_HOME"] = settings.CODEX_HOME
+        
+        _hindsight_server = HindsightServer(**kwargs)
     
     return _hindsight_server
 

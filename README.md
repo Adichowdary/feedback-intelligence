@@ -80,7 +80,70 @@ pip install -r requirements.txt
 ```
 
 ### 3. Configure `.env`
-Copy the template or edit `.env`:
+
+**Option A: Local Demo Mode (Default - Fast, No API Key Needed)**
+```env
+# Hindsight Bank Configuration
+HINDSIGHT_BANK_ID=feedback-intelligence
+HINDSIGHT_LLM_PROVIDER=openai
+HINDSIGHT_LLM_MODEL=gpt-4o-mini
+HINDSIGHT_LLM_API_KEY=sk-dummy-key-for-local-testing
+
+# OpenAI Configuration
+OPENAI_API_KEY=sk-dummy-key-for-local-testing
+
+# Application Settings
+APP_HOST=0.0.0.0
+APP_PORT=8000
+DEBUG=true
+
+# Embedded Hindsight server disabled - uses local memory + TEMPR synthesis
+HINDSIGHT_EMBEDDED=false
+```
+
+> **Note on Dual-Mode Resilience:** In local mode, the application operates in **Interactive Demo Mode**, utilizing the local Hindsight embedding pipeline and built-in TEMPR evidence synthesis so you can test all features offline without any 401 errors!
+
+**Option B: Full Hindsight with OpenAI Codex (ChatGPT Plus/Pro Subscription)**
+> Uses your existing ChatGPT Plus/Pro subscription - no separate OpenAI API key needed.
+
+Prerequisites:
+```bash
+# 1. Install Codex CLI
+npm install -g @openai/codex
+
+# 2. Authenticate with your ChatGPT account
+codex auth login
+# Opens browser → authorize → saves OAuth tokens to ~/.codex/auth.json
+
+# 3. Verify authentication
+ls ~/.codex/auth.json  # Should show the auth file exists
+```
+
+Then configure `.env`:
+```env
+# Hindsight Bank Configuration
+HINDSIGHT_BANK_ID=feedback-intelligence
+HINDSIGHT_LLM_PROVIDER=openai-codex
+HINDSIGHT_LLM_MODEL=gpt-4o-mini          # Not used for Codex (has its own default)
+HINDSIGHT_LLM_API_KEY=                    # Empty - Codex reads from ~/.codex/auth.json
+
+# OpenAI Codex Configuration
+HINDSIGHT_CODEX_MODEL=gpt-5.4-mini        # Default model for Codex provider
+CODEX_HOME=.codex                          # Optional: dedicated creds directory
+
+# OpenAI Configuration (for hindsight-litellm wrapper)
+OPENAI_API_KEY=                            # Empty - not needed with Codex
+
+# Application Settings
+APP_HOST=0.0.0.0
+APP_PORT=8000
+DEBUG=true
+
+# Enable embedded Hindsight server with Codex
+HINDSIGHT_EMBEDDED=true
+```
+
+**Option C: Full Hindsight with OpenAI API Key (Traditional)**
 ```env
 # Hindsight Bank Configuration
 HINDSIGHT_BANK_ID=feedback-intelligence
@@ -96,11 +159,9 @@ APP_HOST=0.0.0.0
 APP_PORT=8000
 DEBUG=true
 
-# Embedded Hindsight server (slow startup, loads ML models - needs a real API key)
-HINDSIGHT_EMBEDDED=false
+# Enable embedded Hindsight server
+HINDSIGHT_EMBEDDED=true
 ```
-
-> **Note on Dual-Mode Resilience:** If you do not have an OpenAI API key yet, the application gracefully operates in **Interactive Demo Mode**, utilizing the local Hindsight embedding pipeline and built-in TEMPR evidence synthesis so you can test all features offline without any 401 errors!
 
 ### 4. Run Application
 ```bash
@@ -111,7 +172,7 @@ start.bat
 python main.py
 ```
 
-Fast startup (~3 seconds) in local mode. To boot the full embedded Hindsight server (loads ML models, runs DB migrations, requires a valid OpenAI key), set `HINDSIGHT_EMBEDDED=true` in `.env`.
+Fast startup (~3 seconds) in local mode. To boot the full embedded Hindsight server (loads ML models, runs DB migrations, requires a valid OpenAI key or Codex auth), set `HINDSIGHT_EMBEDDED=true` in `.env`.
 
 Open your browser at: **`http://localhost:8000`**
 

@@ -10,6 +10,10 @@ class Settings(BaseSettings):
     HINDSIGHT_LLM_MODEL: str = "gpt-4o-mini"
     HINDSIGHT_LLM_API_KEY: Optional[str] = None
     
+    # OpenAI Codex Configuration (ChatGPT Plus/Pro subscription)
+    HINDSIGHT_CODEX_MODEL: str = "gpt-5.4-mini"
+    CODEX_HOME: Optional[str] = None
+    
     # OpenAI Configuration (for hindsight-litellm wrapper)
     OPENAI_API_KEY: Optional[str] = None
     
@@ -18,7 +22,7 @@ class Settings(BaseSettings):
     APP_PORT: int = 8000
     DEBUG: bool = True
 
-    # Set to true to boot the embedded Hindsight server (needs a real OpenAI key)
+    # Set to true to boot the embedded Hindsight server (needs a real OpenAI key or Codex auth)
     HINDSIGHT_EMBEDDED: bool = False
     # Optional: connect to a remote Hindsight instance (e.g. Hindsight Cloud URL)
     HINDSIGHT_URL: Optional[str] = None
