@@ -1,0 +1,66 @@
+text,product_area,source,user_id,date
+"API p95 under 200ms, excellent optimization work",performance,app_store_review,user_050,2025-04-23T16:24:00Z
+Natural language queries work surprisingly well,search,email,user_017,2025-04-07T10:30:00Z
+"New billing dashboard is excellent - clear, fast, accurate",billing,user_interview,user_023,2025-04-27T12:27:00Z
+All integrations are rock solid now,integrations,email,user_018,2025-04-06T14:35:00Z
+Notification controls are finally granular and work correctly (please fix),notifications,email,user_009,2025-04-27T11:58:00Z
+Love the new notification digest - clean and timely,notifications,social_media,user_034,2025-04-21T09:10:00Z
+"Love the new audit log feature, makes my workflow so much easier!",notifications,support_ticket,user_022,2025-04-24T17:00:00Z
+New integration marketplace makes setup effortless,integrations,support_ticket,user_007,2025-04-03T17:22:00Z
+Mobile app is finally stable on both iOS and Android!,mobile_app,sales_call,user_027,2025-04-27T17:50:00Z
+Finally can customize exactly which notifications I receive (please fix),notifications,support_ticket,user_031,2025-04-03T09:21:00Z
+"Widget customization works perfectly, layouts persist",dashboard,user_interview,user_045,2025-04-06T10:24:00Z
+"Login is now instant with SAML integration, huge win",login,app_store_review,user_012,2025-04-15T11:25:00Z
+Love the new notification digest - clean and timely,notifications,user_interview,user_008,2025-04-09T12:25:00Z
+"New billing dashboard is excellent - clear, fast, accurate",billing,social_media,user_038,2025-04-07T09:53:00Z
+Export is rock solid - handles 50k+ rows easily (urgent),export,sales_call,user_047,2025-04-26T10:15:00Z
+Scheduled exports feature is a game changer for reporting,export,user_interview,user_024,2025-04-24T17:00:00Z
+Dashboard is snappy now - loads in under 2 seconds,dashboard,email,user_019,2025-04-11T14:56:00Z
+"Single sign-on works seamlessly, love the new login flow",login,user_interview,user_047,2025-04-20T11:54:00Z
+Love the new notification digest - clean and timely,notifications,sales_call,user_016,2025-04-09T14:00:00Z
+"Single sign-on works seamlessly, love the new login flow",login,sales_call,user_002,2025-04-06T13:29:00Z
+Complete inability to upload PDFs - this is a blocker for our team,pdf_upload,support_ticket,user_043,2025-04-16T13:19:00Z
+"API p95 under 200ms, excellent optimization work",performance,in_app_feedback,user_007,2025-04-14T14:33:00Z
+Application is now fast - sub-second page loads (blocking us),performance,user_interview,user_022,2025-04-07T11:06:00Z
+"Search is finally excellent - fast, relevant, with great filters",search,sales_call,user_045,2025-04-07T14:39:00Z
+Mobile app is finally stable on both iOS and Android! (blocking us),mobile_app,social_media,user_018,2025-04-16T11:33:00Z
+Complete inability to upload PDFs - this is a blocker for our team (blocking us),pdf_upload,other,user_022,2025-04-14T14:22:00Z
+"All formats work perfectly, timezone handling fixed (urgent)",export,sales_call,user_040,2025-04-12T10:38:00Z
+"All formats work perfectly, timezone handling fixed (high priority)",export,user_interview,user_012,2025-04-27T11:12:00Z
+"Excellent improvement on dark mode, thank you for listening to feedback",mobile_app,email,user_037,2025-04-09T12:09:00Z
+Finally can customize exactly which notifications I receive (high priority),notifications,app_store_review,user_044,2025-04-04T12:19:00Z
+"API p95 under 200ms, excellent optimization work",performance,app_store_review,user_049,2025-04-20T17:26:00Z
+Payment updates are instant and confirmed via email (blocking us),billing,social_media,user_034,2025-04-21T11:34:00Z
+Neutral on keyboard shortcuts - it works but nothing special,export,support_ticket,user_021,2025-04-09T13:47:00Z
+Natural language queries work surprisingly well,search,social_media,user_013,2025-04-08T09:41:00Z
+Export is rock solid - handles 50k+ rows easily,export,support_ticket,user_007,2025-04-18T16:31:00Z
+"New billing dashboard is excellent - clear, fast, accurate",billing,social_media,user_022,2025-04-04T13:24:00Z
+"API p95 under 200ms, excellent optimization work",performance,email,user_045,2025-04-20T15:51:00Z
+"New billing dashboard is excellent - clear, fast, accurate",billing,social_media,user_024,2025-04-20T10:35:00Z
+Mobile app is finally stable on both iOS and Android!,mobile_app,other,user_030,2025-04-11T16:21:00Z
+Export is rock solid - handles 50k+ rows easily,export,support_ticket,user_018,2025-04-03T10:14:00Z
+"Bundle size reduced 60%, initial paint under 1s (blocking us)",performance,in_app_feedback,user_033,2025-04-07T13:44:00Z
+"audit log is broken, getting errors constantly",search,sales_call,user_005,2025-04-08T14:16:00Z
+All integrations are rock solid now (please fix),integrations,other,user_026,2025-04-14T15:29:00Z
+"Frustrated with file preview, doesn't work as expected",dashboard,social_media,user_040,2025-04-28T15:13:00Z
+"Bundle size reduced 60%, initial paint under 1s",performance,user_interview,user_045,2025-04-18T13:20:00Z
+Complete inability to upload PDFs - this is a blocker for our team,pdf_upload,email,user_011,2025-04-06T14:44:00Z
+New SSO login is much faster! Great improvement,login,in_app_feedback,user_046,2025-04-01T14:11:00Z
+"Bundle size reduced 60%, initial paint under 1s (urgent)",performance,email,user_025,2025-04-06T09:48:00Z
+"New mobile UI is clean and fast, great work team",mobile_app,other,user_014,2025-04-21T12:11:00Z
+Payment updates are instant and confirmed via email,billing,user_interview,user_020,2025-04-25T10:54:00Z
+Love the new notification digest - clean and timely (urgent),notifications,social_media,user_050,2025-04-13T10:41:00Z
+"New mobile UI is clean and fast, great work team",mobile_app,sales_call,user_019,2025-04-20T11:34:00Z
+"Widget customization works perfectly, layouts persist",dashboard,support_ticket,user_021,2025-04-01T09:19:00Z
+"New mobile UI is clean and fast, great work team",mobile_app,sales_call,user_029,2025-04-05T10:03:00Z
+rich text editor works okay but could use some polish,pdf_upload,user_interview,user_040,2025-04-07T14:39:00Z
+"All formats work perfectly, timezone handling fixed (please fix)",export,other,user_049,2025-04-28T16:27:00Z
+All integrations are rock solid now,integrations,email,user_046,2025-04-14T14:01:00Z
+"New mobile UI is clean and fast, great work team (please fix)",mobile_app,user_interview,user_019,2025-04-04T12:54:00Z
+"Login is now instant with SAML integration, huge win",login,app_store_review,user_027,2025-04-14T11:47:00Z
+Export is rock solid - handles 50k+ rows easily,export,email,user_049,2025-04-23T11:12:00Z
+Dashboard is snappy now - loads in under 2 seconds,dashboard,social_media,user_033,2025-04-17T16:40:00Z
+"New billing dashboard is excellent - clear, fast, accurate",billing,user_interview,user_029,2025-04-14T14:20:00Z
+"rich text editor is broken, getting errors constantly",performance,user_interview,user_036,2025-04-15T17:51:00Z
+"Real-time updates are smooth, love the new dashboard (please fix)",dashboard,support_ticket,user_012,2025-04-26T09:29:00Z
+Bulk invoice download works perfectly now,billing,other,user_034,2025-04-06T13:31:00Z

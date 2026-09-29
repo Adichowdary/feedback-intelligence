@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Ask the Agent - Feedback Intelligence{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in max-w-4xl mx-auto space-y-6">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <div class="inline-flex items-center gap-1.5 text-xs text-blue-600 font-bold uppercase tracking-wider mb-1">
+                <span>Hindsight Recall Engine</span>
+                <span>•</span>
+                <span>Multi-Strategy TEMPR</span>
+            </div>
+            <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Ask Feedback Intelligence</h1>
+            <p class="text-slate-600 text-sm mt-1">Reason over historical feedback, uncover root causes, and evaluate sentiment shifts.</p>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-200">
+                <span class="w-2 h-2 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span>
+                Memory Online
+            </span>
+            <button 
+                onclick="document.getElementById('chat-messages').innerHTML = ''; htmx.ajax('GET', '/api/chat/history', '#chat-messages');"
+                class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition"
+            >
+                Clear
+            </button>
+        </div>
+    </div>
+
+    <!-- Chat Container -->
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 flex flex-col h-[68vh] min-h-[520px] overflow-hidden">
+        <!-- Chat Messages Window -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-6" hx-get="/api/chat/history" hx-trigger="load">
+            <div class="text-center py-16 text-slate-400">
+                <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto mb-3 text-slate-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                </div>
+                <p class="text-sm font-medium text-slate-600">Loading conversation history...</p>
+            </div>
+        </div>
+
+        <!-- Input Bar -->
+        <div class="border-t border-slate-100 p-4 bg-slate-50/80">
+            <form 
+                hx-post="/api/ask" 
+                hx-target="#chat-messages" 
+                hx-swap="beforeend" 
+                hx-indicator="#ask-spinner" 
+                class="flex gap-2.5 items-center"
+                hx-on::after-request="document.getElementById('question-input').value = ''; scrollToBottom();"
+            >
+                <div class="flex-1 relative">
+                    <input 
+                        type="text" 
+                        name="question" 
+                        id="question-input"
+                        required
+                        placeholder="e.g. How has the PDF upload problem changed over time?"
+                        class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-sm text-slate-900 bg-white shadow-xs"
+                        autocomplete="off"
+                    >
+                </div>
+                <button 
+                    type="submit"
+                    class="px-5 py-3 text-white bg-blue-600 hover:bg-blue-700 rounded-xl font-bold text-sm transition shadow-sm hover:shadow-md disabled:opacity-50 flex items-center gap-2 flex-shrink-0"
+                >
+                    <span id="ask-spinner" class="htmx-indicator">
+                        <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    </span>
+                    <span>Ask Agent</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Suggestion Chips -->
+    <div class="space-y-2">
+        <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Suggested Inquiries</div>
+        <div class="flex flex-wrap gap-2">
+            <button 
+                type="button"
+                onclick="insertSuggestion('What are the biggest complaints from users?')"
+                class="px-3 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-blue-50 hover:text-blue-700 border border-slate-200 rounded-full transition shadow-xs"
+            >🚨 Biggest complaints</button>
+            <button 
+                type="button"
+                onclick="insertSuggestion('How has the PDF upload problem changed over time?')"
+                class="px-3 py-1.5 text-xs font-semibold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-full transition shadow-xs"
+            >⚡ PDF upload evolution (Aha! Moment)</button>
+            <button 
+                type="button"
+                onclick="insertSuggestion('Which product areas receive the most negative feedback?')"
+                class="px-3 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-blue-50 hover:text-blue-700 border border-slate-200 rounded-full transition shadow-xs"
+            >📉 Negative feedback areas</button>
+            <button 
+                type="button"
+                onclick="insertSuggestion('How has user sentiment changed over time?')"
+                class="px-3 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-blue-50 hover:text-blue-700 border border-slate-200 rounded-full transition shadow-xs"
+            >📊 Sentiment trajectory</button>
+            <button 
+                type="button"
+                onclick="insertSuggestion('What did users say about login before and after SSO?')"
+                class="px-3 py-1.5 text-xs font-medium text-slate-700 bg-white hover:bg-blue-50 hover:text-blue-700 border border-slate-200 rounded-full transition shadow-xs"
+            >🔐 Login before vs after SSO</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function scrollToBottom() {
+    const container = document.getElementById('chat-messages');
+    setTimeout(() => {
+        container.scrollTop = container.scrollHeight;
+    }, 50);
+}
+
+function insertSuggestion(text) {
+    const input = document.getElementById('question-input');
+    input.value = text;
+    input.focus();
+    setTimeout(() => {
+        htmx.trigger(input.form, 'submit');
+    }, 100);
+}
+
+// Auto-scroll on initial HTMX load
+document.body.addEventListener('htmx:afterSwap', function(evt) {
+    if (evt.detail.target.id === 'chat-messages') {
+        scrollToBottom();
+    }
+});
+</script>
+{% endblock %}

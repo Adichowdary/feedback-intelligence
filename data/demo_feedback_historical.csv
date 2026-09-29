@@ -1,0 +1,246 @@
+text,product_area,source,user_id,date
+All integrations are rock solid now,integrations,in_app_feedback,user_019,2025-04-25T17:28:00Z
+Scheduled exports feature is a game changer for reporting,export,support_ticket,user_004,2025-04-03T15:13:00Z
+Still getting duplicate notifications despite settings (blocking us),notifications,app_store_review,user_015,2025-02-13T16:29:00Z
+Export column order doesn't match UI columns,export,email,user_003,2025-02-24T14:01:00Z
+Jira sync loses custom field mappings,integrations,sales_call,user_034,2025-01-20T17:48:00Z
+"Intermittent login failures - works one minute, fails the next",login,email,user_046,2025-02-19T11:37:00Z
+team workspaces works okay but could use some polish,login,support_ticket,user_006,2025-03-03T15:27:00Z
+Love the new notification digest - clean and timely,notifications,social_media,user_011,2025-04-12T14:04:00Z
+"Battery drain is excessive, app runs in background (blocking us)",mobile_app,sales_call,user_048,2025-02-20T09:38:00Z
+Getting notifications for things I already dismissed,notifications,email,user_033,2025-01-25T14:33:00Z
+"custom fields needs serious attention, blocking our team",pdf_upload,sales_call,user_041,2025-01-03T15:34:00Z
+"Performance hasn't improved, still slow across the board",performance,support_ticket,user_006,2025-02-14T11:00:00Z
+"In-app notifications work well now, but email timing is off",notifications,support_ticket,user_002,2025-03-05T10:05:00Z
+Filters work now but UI is clunky,search,sales_call,user_039,2025-03-02T17:23:00Z
+New notification center is better but email digests still broken (high priority),notifications,app_store_review,user_043,2025-03-27T15:51:00Z
+"In-app notifications work well now, but email timing is off",notifications,app_store_review,user_041,2025-03-19T14:24:00Z
+It takes forever to upload PDF documents (urgent),pdf_upload,other,user_041,2025-01-02T16:43:00Z
+Offline mode doesn't sync properly when back online,mobile_app,sales_call,user_011,2025-01-02T09:50:00Z
+"Slack duplicates still happening, very annoying (blocking us)",integrations,email,user_038,2025-02-23T17:27:00Z
+"Still can't update credit card, getting validation errors",billing,social_media,user_006,2025-02-03T16:09:00Z
+"Search is finally excellent - fast, relevant, with great filters",search,email,user_030,2025-04-03T15:55:00Z
+Date formatting in exports is wrong for Excel,export,sales_call,user_044,2025-01-25T13:28:00Z
+"PDF uploads fail almost every time now, critical bug blocking work",pdf_upload,user_interview,user_005,2025-04-04T09:57:00Z
+Can't filter search results by date or type (blocking us),search,social_media,user_042,2025-01-28T10:13:00Z
+Autocomplete added but suggestions are often wrong,search,other,user_012,2025-03-06T11:10:00Z
+"Webhook delivery is unreliable, many failures (urgent)",integrations,support_ticket,user_030,2025-01-21T10:19:00Z
+PDF uploads fail almost every time since the latest deploy,pdf_upload,in_app_feedback,user_018,2025-03-11T13:38:00Z
+"New billing dashboard is excellent - clear, fast, accurate",billing,in_app_feedback,user_011,2025-04-07T12:51:00Z
+Application is now fast - sub-second page loads,performance,sales_call,user_046,2025-04-05T17:47:00Z
+"New export format options (JSON, Excel) are useful (please fix)",export,social_media,user_038,2025-03-08T15:45:00Z
+"Login is now instant with SAML integration, huge win",login,app_store_review,user_032,2025-04-14T13:41:00Z
+The March release broke PDF uploads completely - constant timeouts,pdf_upload,app_store_review,user_004,2025-03-05T09:55:00Z
+"Frustrated with file preview, doesn't work as expected",notifications,sales_call,user_001,2025-01-01T16:32:00Z
+Data refresh works better but still occasional stale data,dashboard,other,user_005,2025-03-14T11:32:00Z
+Search within specific projects doesn't work,search,in_app_feedback,user_038,2025-02-08T16:57:00Z
+"Still can't update credit card, getting validation errors",billing,support_ticket,user_007,2025-02-03T13:46:00Z
+Billing page loads slowly with 50+ invoices,billing,app_store_review,user_003,2025-03-24T09:45:00Z
+"CSV export missing columns, data is incomplete",export,sales_call,user_013,2025-01-18T15:53:00Z
+Slack integration posts duplicate messages,integrations,app_store_review,user_018,2025-01-07T12:30:00Z
+Still getting duplicate notifications despite settings (please fix),notifications,in_app_feedback,user_046,2025-02-21T14:22:00Z
+New 'remember me' checkbox helps but doesn't persist long enough,login,sales_call,user_025,2025-03-06T13:18:00Z
+All integrations are rock solid now (urgent),integrations,user_interview,user_043,2025-04-17T11:28:00Z
+"Can't turn off specific notification types, all or nothing",notifications,app_store_review,user_006,2025-02-17T10:55:00Z
+"Search is finally excellent - fast, relevant, with great filters",search,email,user_002,2025-04-26T11:01:00Z
+"templates needs serious attention, blocking our team",export,app_store_review,user_048,2025-04-27T13:05:00Z
+"Login page loads slowly, takes 5-10 seconds to appear (high priority)",login,support_ticket,user_040,2025-01-08T16:35:00Z
+"Search is finally excellent - fast, relevant, with great filters",search,email,user_021,2025-04-27T12:29:00Z
+"custom fields is broken, getting errors constantly",mobile_app,user_interview,user_007,2025-01-19T13:34:00Z
+"Frustrated with templates, doesn't work as expected",search,app_store_review,user_012,2025-04-06T16:56:00Z
+"Initial load improved with lazy loading, but not perfect",performance,app_store_review,user_018,2025-03-21T17:22:00Z
+Sync issues persist - losing data when offline,mobile_app,other,user_004,2025-02-17T11:34:00Z
+Neutral on keyboard shortcuts - it works but nothing special,performance,email,user_027,2025-03-07T10:52:00Z
+"dark mode is broken, getting errors constantly",integrations,other,user_044,2025-02-18T17:17:00Z
+Mobile app crashes when opening large attachments,mobile_app,social_media,user_048,2025-01-01T13:50:00Z
+Export works for up to 5000 rows now (high priority),export,app_store_review,user_035,2025-03-26T09:44:00Z
+Widget refresh button doesn't work half the time,dashboard,email,user_025,2025-02-12T09:25:00Z
+"Frontend bundle size is huge, initial load is painful (please fix)",performance,support_ticket,user_032,2025-02-25T17:34:00Z
+Love the new notification digest - clean and timely,notifications,in_app_feedback,user_042,2025-04-02T16:25:00Z
+Love the new notification digest - clean and timely,notifications,support_ticket,user_034,2025-04-11T16:57:00Z
+"Some pages faster after code splitting, but dashboard still slow",performance,other,user_019,2025-03-16T15:14:00Z
+Autocomplete added but suggestions are often wrong (blocking us),search,support_ticket,user_033,2025-03-17T14:09:00Z
+Finally can customize exactly which notifications I receive,notifications,social_media,user_050,2025-04-11T11:08:00Z
+Mobile app crashes when opening large attachments,mobile_app,in_app_feedback,user_004,2025-01-14T09:28:00Z
+"Widget customization works perfectly, layouts persist",dashboard,sales_call,user_031,2025-04-14T09:01:00Z
+Billing page loads slowly with 50+ invoices (please fix),billing,sales_call,user_036,2025-03-09T14:32:00Z
+Sometimes get stuck on loading screen after entering credentials (please fix),login,sales_call,user_036,2025-01-09T14:12:00Z
+All integrations are rock solid now (high priority),integrations,app_store_review,user_022,2025-04-10T13:29:00Z
+Charts render incorrectly on wide screens (high priority),dashboard,in_app_feedback,user_015,2025-01-13T11:14:00Z
+"Login page loads slowly, takes 5-10 seconds to appear",login,user_interview,user_012,2025-01-21T10:50:00Z
+Filters work now but UI is clunky,search,email,user_041,2025-03-16T14:36:00Z
+"Slack integration fixed in v2.1, no more duplicates",integrations,in_app_feedback,user_023,2025-03-07T16:58:00Z
+Invoice download works but naming convention is inconsistent (high priority),billing,email,user_050,2025-03-09T16:47:00Z
+Still crashing on iOS when viewing PDFs,mobile_app,other,user_029,2025-02-23T09:49:00Z
+Notification controls are finally granular and work correctly,notifications,user_interview,user_016,2025-04-27T09:10:00Z
+The March release broke PDF uploads completely - constant timeouts,pdf_upload,in_app_feedback,user_011,2025-03-07T12:16:00Z
+Love the new notification digest - clean and timely,notifications,app_store_review,user_037,2025-04-13T15:56:00Z
+"Love the new bulk actions feature, makes my workflow so much easier!",notifications,user_interview,user_038,2025-03-02T12:04:00Z
+App is slow and unresponsive on older phones (please fix),mobile_app,social_media,user_045,2025-01-01T10:55:00Z
+"Uploading large PDFs often times out, very frustrating (urgent)",pdf_upload,other,user_035,2025-01-12T15:19:00Z
+Export column order doesn't match UI columns,export,other,user_035,2025-02-12T14:20:00Z
+"templates needs serious attention, blocking our team",search,other,user_022,2025-02-01T16:35:00Z
+Scheduled exports feature is a game changer for reporting,export,in_app_feedback,user_024,2025-04-09T15:58:00Z
+Offline mode doesn't sync properly when back online (high priority),mobile_app,app_store_review,user_037,2025-01-13T10:30:00Z
+Finally can customize exactly which notifications I receive (blocking us),notifications,email,user_007,2025-04-25T09:28:00Z
+The March release broke PDF uploads completely - constant timeouts (blocking us),pdf_upload,sales_call,user_036,2025-03-04T09:30:00Z
+No autocomplete or suggestions in search box,search,other,user_040,2025-02-05T12:14:00Z
+Scheduled exports feature is a game changer for reporting,export,social_media,user_046,2025-04-17T17:04:00Z
+Search experience is now best-in-class (high priority),search,support_ticket,user_048,2025-04-09T16:23:00Z
+Bulk invoice download works perfectly now,billing,other,user_038,2025-04-12T15:23:00Z
+"Bundle size reduced 60%, initial paint under 1s (blocking us)",performance,app_store_review,user_026,2025-04-08T09:22:00Z
+"Frontend bundle size is huge, initial load is painful (blocking us)",performance,user_interview,user_014,2025-02-03T12:34:00Z
+Export times out for large datasets (>1000 rows) (high priority),export,sales_call,user_045,2025-01-15T11:26:00Z
+New notification center is better but email digests still broken,notifications,user_interview,user_037,2025-03-02T17:05:00Z
+Large PDF files consistently fail to upload (high priority),pdf_upload,in_app_feedback,user_019,2025-02-11T12:34:00Z
+Date formatting fixed but timezone handling still off (blocking us),export,in_app_feedback,user_047,2025-03-01T11:44:00Z
+Special characters break CSV export (blocking us),export,app_store_review,user_020,2025-02-19T13:55:00Z
+New notification center is better but email digests still broken,notifications,social_media,user_020,2025-03-18T17:18:00Z
+Dashboard is snappy now - loads in under 2 seconds (urgent),dashboard,social_media,user_023,2025-04-24T12:34:00Z
+Sometimes get stuck on loading screen after entering credentials,login,other,user_019,2025-01-20T13:45:00Z
+"New mobile UI is clean and fast, great work team (high priority)",mobile_app,app_store_review,user_013,2025-04-25T13:14:00Z
+Jira integration breaks every time we update Jira version,integrations,in_app_feedback,user_049,2025-02-20T11:48:00Z
+Mobile app is finally stable on both iOS and Android!,mobile_app,social_media,user_021,2025-04-02T11:03:00Z
+"Initial load improved with lazy loading, but not perfect",performance,user_interview,user_015,2025-03-23T11:25:00Z
+Date formatting fixed but timezone handling still off (urgent),export,in_app_feedback,user_019,2025-03-11T17:54:00Z
+"Webhook retries don't work, losing critical events",integrations,email,user_014,2025-02-05T16:59:00Z
+Slack integration posts duplicate messages,integrations,in_app_feedback,user_022,2025-01-23T15:12:00Z
+Search is case-sensitive inconsistently,search,sales_call,user_044,2025-01-03T09:32:00Z
+Sync issues persist - losing data when offline (urgent),mobile_app,user_interview,user_041,2025-02-13T14:51:00Z
+API p95 latency down to 800ms from 2s,performance,social_media,user_042,2025-03-01T13:00:00Z
+Offline sync improved but still occasional conflicts (high priority),mobile_app,user_interview,user_046,2025-03-15T10:00:00Z
+Search experience is now best-in-class,search,user_interview,user_008,2025-04-03T11:57:00Z
+Mobile app is finally stable on both iOS and Android! (blocking us),mobile_app,social_media,user_019,2025-04-19T13:35:00Z
+"API response times are high, averaging 2+ seconds",performance,sales_call,user_034,2025-02-24T13:07:00Z
+"Billing page shows wrong amount, doesn't match invoice",billing,in_app_feedback,user_031,2025-01-16T15:37:00Z
+PDF upload failure rate is near 100% since April 1st,pdf_upload,email,user_011,2025-04-06T09:47:00Z
+Slack integration posts duplicate messages,integrations,user_interview,user_001,2025-01-16T12:03:00Z
+Export works for up to 5000 rows now (high priority),export,app_store_review,user_043,2025-03-17T09:48:00Z
+Charts render incorrectly on wide screens (high priority),dashboard,user_interview,user_048,2025-01-13T10:03:00Z
+"PDF uploads take too long, sometimes 30+ seconds to complete",pdf_upload,user_interview,user_045,2025-01-13T13:45:00Z
+Bulk invoice download works perfectly now,billing,app_store_review,user_048,2025-04-05T09:02:00Z
+Neutral on API webhooks - it works but nothing special,integrations,email,user_036,2025-01-27T15:52:00Z
+Billing history shows duplicate charges from last month,billing,in_app_feedback,user_015,2025-02-05T16:44:00Z
+"Webhook delivery is unreliable, many failures (blocking us)",integrations,user_interview,user_004,2025-01-12T12:07:00Z
+The audit log update is fine but not groundbreaking,dashboard,social_media,user_032,2025-02-11T17:43:00Z
+"Login is now instant with SAML integration, huge win",login,sales_call,user_033,2025-04-16T15:29:00Z
+New notification center is better but email digests still broken,notifications,app_store_review,user_037,2025-03-11T13:02:00Z
+"Frustrated with file preview, doesn't work as expected",login,email,user_005,2025-02-24T13:42:00Z
+Still can't export more than 500 rows without timeout,export,social_media,user_010,2025-02-05T14:16:00Z
+"dark mode is broken, getting errors constantly",other,email,user_048,2025-01-05T11:20:00Z
+New 'remember me' checkbox helps but doesn't persist long enough,login,in_app_feedback,user_048,2025-03-28T09:06:00Z
+"Slack integration fixed in v2.1, no more duplicates",integrations,sales_call,user_028,2025-03-14T09:55:00Z
+"Can't turn off specific notification types, all or nothing",notifications,support_ticket,user_005,2025-02-10T17:42:00Z
+"Great job on the rich text editor update, huge time saver",integrations,social_media,user_017,2025-01-13T14:23:00Z
+"Initial load improved with lazy loading, but not perfect",performance,sales_call,user_046,2025-03-26T15:45:00Z
+Complete inability to upload PDFs - this is a blocker for our team,pdf_upload,in_app_feedback,user_032,2025-04-11T17:01:00Z
+"comment threads needs serious attention, blocking our team",pdf_upload,user_interview,user_029,2025-03-16T09:25:00Z
+"Love the new bulk actions feature, makes my workflow so much easier!",login,email,user_012,2025-02-04T14:12:00Z
+Jira sync loses custom field mappings (please fix),integrations,app_store_review,user_026,2025-01-08T15:02:00Z
+Notification grouping helps but missing 'mark all read' button,notifications,app_store_review,user_041,2025-03-25T17:57:00Z
+Page transitions take 3-5 seconds consistently,performance,other,user_045,2025-01-02T14:13:00Z
+Login is functional but could be smoother,login,social_media,user_044,2025-03-11T15:28:00Z
+Dashboard loads faster now (3-4 seconds) but widgets still buggy (please fix),dashboard,app_store_review,user_007,2025-03-04T16:24:00Z
+New 'remember me' checkbox helps but doesn't persist long enough (please fix),login,email,user_028,2025-03-13T09:58:00Z
+Sometimes get stuck on loading screen after entering credentials,login,support_ticket,user_003,2025-01-20T16:31:00Z
+Invoice PDFs are missing line items,billing,user_interview,user_002,2025-01-12T11:14:00Z
+"Too many notification emails, inbox is flooded",notifications,social_media,user_033,2025-01-23T13:54:00Z
+Application is now fast - sub-second page loads,performance,in_app_feedback,user_046,2025-04-04T15:33:00Z
+Page transitions take 3-5 seconds consistently (urgent),performance,app_store_review,user_039,2025-01-24T14:30:00Z
+Export column order doesn't match UI columns,export,user_interview,user_018,2025-02-20T12:18:00Z
+Mobile app is finally stable on both iOS and Android!,mobile_app,support_ticket,user_027,2025-04-20T14:55:00Z
+Dashboard loads faster now (3-4 seconds) but widgets still buggy,dashboard,sales_call,user_041,2025-03-06T15:56:00Z
+"iOS crashes fixed in latest update, but Android still has issues (please fix)",mobile_app,other,user_006,2025-03-21T10:14:00Z
+"Login is now instant with SAML integration, huge win (high priority)",login,social_media,user_039,2025-04-01T16:26:00Z
+Still waiting 20+ seconds for PDF uploads to finish,pdf_upload,email,user_042,2025-02-09T10:47:00Z
+"New billing dashboard is excellent - clear, fast, accurate",billing,social_media,user_014,2025-04-05T12:21:00Z
+Export is rock solid - handles 50k+ rows easily (urgent),export,support_ticket,user_041,2025-04-19T10:00:00Z
+Push notifications arrive hours late sometimes,notifications,app_store_review,user_043,2025-02-27T16:42:00Z
+Can't filter search results by date or type,search,email,user_038,2025-01-07T09:12:00Z
+"iOS crashes fixed in latest update, but Android still has issues (urgent)",mobile_app,in_app_feedback,user_017,2025-03-19T10:55:00Z
+Jira sync more stable but field mapping UI is confusing,integrations,other,user_024,2025-03-22T12:59:00Z
+"Too many notification emails, inbox is flooded (urgent)",notifications,user_interview,user_039,2025-01-27T13:44:00Z
+PDF upload failure rate is near 100% since April 1st,pdf_upload,support_ticket,user_037,2025-04-21T14:48:00Z
+No way to download all invoices at once,billing,sales_call,user_018,2025-02-13T13:51:00Z
+No autocomplete or suggestions in search box,search,social_media,user_035,2025-02-26T13:15:00Z
+"Offline mode works perfectly now, seamless sync",mobile_app,social_media,user_046,2025-04-05T14:52:00Z
+Large PDF files consistently fail to upload,pdf_upload,email,user_019,2025-02-14T12:57:00Z
+"Application feels sluggish overall, especially after login (high priority)",performance,support_ticket,user_022,2025-01-05T12:39:00Z
+"Intermittent login failures - works one minute, fails the next",login,email,user_022,2025-02-04T11:55:00Z
+"Offline mode works perfectly now, seamless sync (urgent)",mobile_app,in_app_feedback,user_008,2025-04-27T16:13:00Z
+"Dashboard takes 10+ seconds to load, widgets timeout",dashboard,in_app_feedback,user_002,2025-01-28T09:04:00Z
+All integrations are rock solid now,integrations,in_app_feedback,user_032,2025-04-01T15:53:00Z
+custom fields works okay but could use some polish,notifications,email,user_007,2025-03-20T10:22:00Z
+PDF upload keeps failing with timeout errors after the March update,pdf_upload,email,user_039,2025-03-16T14:04:00Z
+"CSV export missing columns, data is incomplete",export,email,user_023,2025-01-05T16:39:00Z
+"Frustrated with API webhooks, doesn't work as expected",pdf_upload,other,user_037,2025-01-22T17:30:00Z
+Payment updates are instant and confirmed via email,billing,other,user_018,2025-04-23T11:33:00Z
+Getting notifications for things I already dismissed,notifications,app_store_review,user_044,2025-01-19T17:25:00Z
+"Frontend bundle size is huge, initial load is painful",performance,user_interview,user_028,2025-02-05T17:51:00Z
+Page transitions take 3-5 seconds consistently,performance,email,user_014,2025-01-15T15:32:00Z
+New SSO login is much faster! Great improvement (please fix),login,other,user_021,2025-04-11T12:01:00Z
+"Search returns irrelevant results, missing obvious matches",search,app_store_review,user_040,2025-01-12T14:44:00Z
+New integration marketplace makes setup effortless (please fix),integrations,social_media,user_001,2025-04-27T16:40:00Z
+Notification preferences don't save properly,notifications,email,user_033,2025-01-19T10:24:00Z
+"Search is finally excellent - fast, relevant, with great filters (urgent)",search,other,user_023,2025-04-10T15:43:00Z
+advanced filters works okay but could use some polish,export,sales_call,user_048,2025-03-28T17:32:00Z
+Custom dashboard layouts don't save between sessions (high priority),dashboard,social_media,user_021,2025-01-24T12:10:00Z
+Notification preferences don't save properly (blocking us),notifications,other,user_050,2025-01-07T14:35:00Z
+"Uploading large PDFs often times out, very frustrating",pdf_upload,in_app_feedback,user_048,2025-01-17T17:50:00Z
+Dashboard loads faster now (3-4 seconds) but widgets still buggy,dashboard,social_media,user_040,2025-03-21T10:10:00Z
+"comment threads is broken, getting errors constantly",mobile_app,email,user_035,2025-03-10T12:38:00Z
+"PDF uploads fail almost every time now, critical bug blocking work (please fix)",pdf_upload,in_app_feedback,user_048,2025-04-04T10:26:00Z
+Notification grouping helps but missing 'mark all read' button (urgent),notifications,in_app_feedback,user_021,2025-03-12T11:04:00Z
+"templates is broken, getting errors constantly",other,in_app_feedback,user_050,2025-04-27T13:21:00Z
+Complete inability to upload PDFs - this is a blocker for our team,pdf_upload,in_app_feedback,user_014,2025-04-11T12:33:00Z
+Charts render incorrectly on wide screens (blocking us),dashboard,support_ticket,user_020,2025-01-19T10:27:00Z
+"Login is now instant with SAML integration, huge win (please fix)",login,in_app_feedback,user_030,2025-04-26T10:11:00Z
+Notification preferences don't save properly,notifications,sales_call,user_021,2025-01-16T09:29:00Z
+Export is rock solid - handles 50k+ rows easily,export,app_store_review,user_012,2025-04-19T12:24:00Z
+Offline sync improved but still occasional conflicts,mobile_app,email,user_048,2025-03-13T15:38:00Z
+"Battery drain is excessive, app runs in background",mobile_app,user_interview,user_022,2025-02-19T14:51:00Z
+"Sometimes get 'invalid token' error on login, have to retry",login,sales_call,user_019,2025-02-04T16:27:00Z
+New drag-and-drop for widgets is nice but finicky (urgent),dashboard,social_media,user_028,2025-03-06T09:39:00Z
+New SSO login is much faster! Great improvement,login,in_app_feedback,user_024,2025-04-20T09:37:00Z
+"Login page loads slowly, takes 5-10 seconds to appear (high priority)",login,app_store_review,user_028,2025-01-13T09:02:00Z
+Login is functional but could be smoother (urgent),login,support_ticket,user_004,2025-03-21T10:47:00Z
+Jira integration breaks every time we update Jira version,integrations,user_interview,user_048,2025-02-10T11:14:00Z
+Mobile app is finally stable on both iOS and Android! (blocking us),mobile_app,in_app_feedback,user_003,2025-04-15T17:40:00Z
+"rich text editor is broken, getting errors constantly",dashboard,support_ticket,user_029,2025-01-11T09:10:00Z
+It takes forever to upload PDF documents,pdf_upload,email,user_008,2025-01-14T16:41:00Z
+"Performance better on newer devices, old phones still struggle (high priority)",mobile_app,email,user_009,2025-03-17T12:27:00Z
+"iOS crashes fixed in latest update, but Android still has issues",mobile_app,other,user_003,2025-03-11T16:08:00Z
+"Frontend bundle size is huge, initial load is painful",performance,support_ticket,user_015,2025-02-28T14:31:00Z
+"Still can't update credit card, getting validation errors",billing,email,user_010,2025-02-03T14:47:00Z
+API p95 latency down to 800ms from 2s (please fix),performance,user_interview,user_020,2025-03-18T12:36:00Z
+All integrations are rock solid now,integrations,user_interview,user_041,2025-04-08T10:18:00Z
+"Real-time updates are smooth, love the new dashboard (urgent)",dashboard,social_media,user_046,2025-04-11T10:36:00Z
+No way to download all invoices at once,billing,user_interview,user_040,2025-02-03T14:16:00Z
+Filters work now but UI is clunky (please fix),search,email,user_042,2025-03-07T10:06:00Z
+"All formats work perfectly, timezone handling fixed",export,user_interview,user_026,2025-04-24T15:37:00Z
+Sometimes get stuck on loading screen after entering credentials (urgent),login,other,user_039,2025-01-26T15:01:00Z
+"PDF uploads take too long, sometimes 30+ seconds to complete (high priority)",pdf_upload,sales_call,user_033,2025-01-09T09:31:00Z
+"Some pages faster after code splitting, but dashboard still slow",performance,app_store_review,user_021,2025-03-09T16:11:00Z
+Neutral on team workspaces - it works but nothing special,performance,in_app_feedback,user_002,2025-03-08T17:48:00Z
+Application is now fast - sub-second page loads,performance,user_interview,user_049,2025-04-07T09:20:00Z
+PDF uploads fail almost every time since the latest deploy (blocking us),pdf_upload,sales_call,user_026,2025-03-20T15:12:00Z
+Offline sync improved but still occasional conflicts,mobile_app,other,user_041,2025-03-24T16:51:00Z
+"Urgent: PDF upload broken, cannot attach documents to tickets (urgent)",pdf_upload,social_media,user_030,2025-04-05T14:28:00Z
+"Login is sluggish, especially first thing in the morning (please fix)",login,sales_call,user_022,2025-01-26T10:56:00Z
+Still crashing on iOS when viewing PDFs,mobile_app,user_interview,user_037,2025-02-04T10:04:00Z
+All integrations are rock solid now,integrations,support_ticket,user_032,2025-04-05T09:13:00Z
+Search is case-sensitive inconsistently,search,support_ticket,user_024,2025-01-06T13:46:00Z
+Billing history shows duplicate charges from last month,billing,app_store_review,user_023,2025-02-16T15:55:00Z
+"Battery drain is excessive, app runs in background",mobile_app,email,user_023,2025-02-23T11:51:00Z
+Webhook delivery improved with better error logging,integrations,social_media,user_003,2025-03-16T09:42:00Z
+"Can't update payment method, form submits but doesn't save",billing,email,user_003,2025-01-11T16:33:00Z
+Search within specific projects doesn't work,search,app_store_review,user_001,2025-02-12T10:11:00Z
+"Slack duplicates still happening, very annoying",integrations,sales_call,user_012,2025-02-12T15:53:00Z
+Date formatting in exports is wrong for Excel,export,sales_call,user_007,2025-01-21T09:23:00Z
+Widget refresh button doesn't work half the time (high priority),dashboard,user_interview,user_023,2025-02-21T13:39:00Z
+Still getting duplicate notifications despite settings (high priority),notifications,support_ticket,user_037,2025-02-06T10:37:00Z
+Love the new notification digest - clean and timely,notifications,sales_call,user_003,2025-04-14T15:55:00Z
+Can't rearrange widgets without page reload,dashboard,other,user_037,2025-02-21T17:25:00Z
+"New mobile UI is clean and fast, great work team",mobile_app,support_ticket,user_026,2025-04-13T16:50:00Z
+"PDF uploads fail almost every time now, critical bug blocking work (blocking us)",pdf_upload,other,user_041,2025-04-03T17:18:00Z
+"Still can't update credit card, getting validation errors",billing,other,user_011,2025-02-07T17:22:00Z

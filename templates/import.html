@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block title %}Import Data - Feedback Intelligence{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in max-w-3xl">
+    <!-- Header -->
+    <div class="mb-8">
+        <a href="/" class="inline-flex items-center text-gray-500 hover:text-gray-700 mb-4">
+            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Back to Home
+        </a>
+        <h1 class="text-3xl font-bold text-gray-900">Import Feedback Data</h1>
+        <p class="text-gray-600 mt-1">Bulk import feedback from CSV or JSON files. Perfect for loading historical datasets.</p>
+    </div>
+
+    <!-- Import Form -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mb-8">
+        <form hx-post="/api/import" hx-target="#import-result" hx-swap="innerHTML" hx-indicator="#import-spinner" enctype="multipart/form-data">
+            <div class="space-y-6">
+                <!-- File Upload -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-3">Choose CSV or JSON File</label>
+                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-500 hover:bg-blue-50 transition relative">
+                        <input 
+                            type="file" 
+                            name="file" 
+                            id="file-input"
+                            accept=".csv,.json"
+                            required
+                            class="absolute inset-0 opacity-0 cursor-pointer"
+                        >
+                        <div class="relative">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                            </svg>
+                            <p class="mt-2 text-lg font-medium text-gray-900">Drag & drop a file here, or click to select</p>
+                            <p class="mt-1 text-sm text-gray-500">CSV or JSON • Max 10MB</p>
+                            <p class="mt-4 text-xs text-gray-400">Required column: <code class="bg-gray-100 px-1.5 py-0.5 rounded">text</code> | Optional: <code class="bg-gray-100 px-1.5 py-0.5 rounded">product_area</code>, <code class="bg-gray-100 px-1.5 py-0.5 rounded">source</code>, <code class="bg-gray-100 px-1.5 py-0.5 rounded">user_id</code>, <code class="bg-gray-100 px-1.5 py-0.5 rounded">date</code></p>
+                        </div>
+                    </div>
+                    <p id="file-name" class="mt-2 text-sm text-gray-500 hidden">No file selected</p>
+                </div>
+
+                <!-- Format Help -->
+                <details class="group">
+                    <summary class="flex items-center cursor-pointer text-blue-600 hover:text-blue-700 font-medium">
+                        <svg class="w-5 h-5 mr-2 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                        View required file format
+                    </summary>
+                    <div class="mt-4 p-4 bg-gray-50 rounded-xl">
+                        <h5 class="font-medium text-gray-900 mb-2">CSV Format:</h5>
+                        <pre class="bg-gray-900 text-gray-100 p-3 rounded-lg text-sm overflow-x-auto"><code>text,product_area,source,user_id,date
+"PDF uploads take too long",pdf_upload,support_ticket,user_001,2025-01-15T10:30:00
+"Login page is slow",login,in_app_feedback,user_002,2025-01-16T14:22:00</code></pre>
+                        <h5 class="font-medium text-gray-900 mt-4 mb-2">JSON Format:</h5>
+                        <pre class="bg-gray-900 text-gray-100 p-3 rounded-lg text-sm overflow-x-auto"><code>[
+  {
+    "text": "PDF uploads take too long",
+    "product_area": "pdf_upload",
+    "source": "support_ticket",
+    "user_id": "user_001",
+    "date": "2025-01-15T10:30:00"
+  }
+]</code></pre>
+                    </div>
+                </details>
+
+                <!-- Submit Button -->
+                <button 
+                    type="submit"
+                    id="import-btn"
+                    class="w-full px-6 py-3 text-white bg-purple-600 hover:bg-purple-700 rounded-xl font-semibold transition shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    disabled
+                >
+                    <span id="import-spinner" class="htmx-indicator">
+                        <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Importing...
+                    </span>
+                    <span class="htmx-request:hidden">Import to Hindsight Memory</span>
+                </button>
+            </div>
+        </form>
+
+        <!-- Result Area -->
+        <div id="import-result" class="mt-6"></div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <button 
+                hx-post="/api/demo/load-recent" 
+                hx-target="#import-result" 
+                hx-swap="innerHTML"
+                hx-indicator="#quick-spinner-1"
+                class="p-4 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition text-left flex items-center gap-3"
+            >
+                <svg class="w-8 h-8 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <div>
+                    <p class="font-medium text-gray-900">Load Recent (1 Month)</p>
+                    <p class="text-sm text-gray-500">Quick demo: last 30 days only</p>
+                </div>
+                <span id="quick-spinner-1" class="htmx-indicator ml-auto">
+                    <svg class="animate-spin h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                </span>
+            </button>
+
+            <button 
+                hx-post="/api/demo/load-historical" 
+                hx-target="#import-result" 
+                hx-swap="innerHTML"
+                hx-indicator="#quick-spinner-2"
+                class="p-4 border border-gray-200 rounded-xl hover:border-purple-500 hover:bg-purple-50 transition text-left flex items-center gap-3"
+            >
+                <svg class="w-8 h-8 text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                </svg>
+                <div>
+                    <p class="font-medium text-gray-900">Load Historical (4 Months)</p>
+                    <p class="text-sm text-gray-500">Full demo dataset: Jan-Apr 2025</p>
+                </div>
+                <span id="quick-spinner-2" class="htmx-indicator ml-auto">
+                    <svg class="animate-spin h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                </span>
+            </button>
+
+            <a 
+                href="/demo"
+                class="p-4 border border-gray-200 rounded-xl hover:border-green-500 hover:bg-green-50 transition text-left flex items-center gap-3"
+            >
+                <svg class="w-8 h-8 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <div>
+                    <p class="font-medium text-gray-900">Go to Demo Flow</p>
+                    <p class="text-sm text-gray-500">Guided 4-step demonstration</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('file-input').addEventListener('change', function(e) {
+    const fileName = document.getElementById('file-name');
+    const importBtn = document.getElementById('import-btn');
+    if (e.target.files.length > 0) {
+        fileName.textContent = `Selected: ${e.target.files[0].name}`;
+        fileName.classList.remove('hidden');
+        importBtn.disabled = false;
+    } else {
+        fileName.classList.add('hidden');
+        importBtn.disabled = true;
+    }
+});
+</script>
+{% endblock %}

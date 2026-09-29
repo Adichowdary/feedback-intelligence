@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}User Feedback Intelligence Agent{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/alpinejs@3.13.3/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
+        .prose { @apply text-gray-800 leading-relaxed; }
+        .prose h1 { @apply text-2xl font-bold mb-4 text-gray-900; }
+        .prose h2 { @apply text-xl font-bold mb-3 mt-6 text-gray-900 border-b border-gray-100 pb-2; }
+        .prose h3 { @apply text-lg font-bold mb-2 mt-4 text-gray-900; }
+        .prose p { @apply mb-3 text-sm text-gray-700 leading-relaxed; }
+        .prose ul { @apply list-disc list-inside mb-4 space-y-1.5 text-sm text-gray-700; }
+        .prose ol { @apply list-decimal list-inside mb-4 space-y-1.5 text-sm text-gray-700; }
+        .prose code { @apply bg-gray-100 text-blue-700 px-1.5 py-0.5 rounded text-xs font-mono font-semibold; }
+        .prose pre { @apply bg-slate-900 text-slate-100 p-4 rounded-xl overflow-x-auto mb-4 text-xs font-mono; }
+        .prose pre code { @apply bg-transparent p-0 text-inherit; }
+        .prose strong { @apply font-bold text-gray-900; }
+        .prose a { @apply text-blue-600 hover:underline font-medium; }
+        .prose blockquote { @apply border-l-4 border-blue-500 pl-4 italic text-gray-600 my-4 bg-blue-50/50 py-2 rounded-r-lg text-sm; }
+        .prose table { @apply w-full text-xs text-left border-collapse my-4 border border-gray-200 rounded-lg overflow-hidden; }
+        .prose th { @apply bg-gray-100 p-2.5 font-bold text-gray-900 border border-gray-200; }
+        .prose td { @apply p-2.5 border border-gray-200 text-gray-700; }
+        
+        /* HTMX transitions */
+        .htmx-indicator { display: none; }
+        .htmx-request .htmx-indicator { display: inline-flex; }
+        .htmx-request.htmx-indicator { display: inline-flex; }
+        
+        /* Smooth fade */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.25s ease-out; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f8fafc; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col text-slate-900 antialiased">
+    <!-- Top Bar Navigation -->
+    <nav class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-6">
+                    <a href="/" class="flex items-center space-x-2.5 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.734-.988-2.386l-.548-.547z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="text-base font-extrabold tracking-tight text-slate-900 block leading-tight">Feedback Intelligence</span>
+                            <span class="text-[10px] text-blue-600 font-bold uppercase tracking-wider block">Powered by Hindsight</span>
+                        </div>
+                    </a>
+
+                    <!-- Engine Status Pill -->
+                    <div class="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>Bank: <code>feedback-intelligence</code></span>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-1 sm:space-x-2">
+                    <a href="/feedback" class="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg transition {% if active_tab == 'feedback' %}bg-blue-50 text-blue-700{% else %}text-slate-600 hover:text-slate-900 hover:bg-slate-100{% endif %}">Submit</a>
+                    <a href="/import" class="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg transition {% if active_tab == 'import' %}bg-blue-50 text-blue-700{% else %}text-slate-600 hover:text-slate-900 hover:bg-slate-100{% endif %}">Import Data</a>
+                    <a href="/ask" class="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg transition {% if active_tab == 'ask' %}bg-blue-50 text-blue-700{% else %}text-slate-600 hover:text-slate-900 hover:bg-slate-100{% endif %}">Ask Agent</a>
+                    <a href="/dashboard" class="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg transition {% if active_tab == 'dashboard' %}bg-blue-50 text-blue-700{% else %}text-slate-600 hover:text-slate-900 hover:bg-slate-100{% endif %}">Dashboard</a>
+                    <a href="/demo" class="ml-2 px-4 py-2 text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl transition shadow-md shadow-blue-500/20 flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>Demo Flow</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div>
+                <strong>User Feedback Intelligence Agent</strong> • HackwithHyderabad 3.0
+            </div>
+            <div class="flex items-center gap-4">
+                <span>FastAPI</span>
+                <span>•</span>
+                <span>Hindsight Memory Server</span>
+                <span>•</span>
+                <span>TEMPR Recall Engine</span>
+            </div>
+        </div>
+    </footer>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Feedback Intelligence{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in">
+    <!-- Header -->
+    <div class="mb-8">
+        <a href="/" class="inline-flex items-center text-gray-500 hover:text-gray-700 mb-4">
+            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Back to Home
+        </a>
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
+                <p class="text-gray-600 mt-1">Real-time insights from Hindsight memory</p>
+            </div>
+            <button 
+                hx-get="/api/stats" 
+                hx-target="#stats-container" 
+                hx-swap="innerHTML"
+                hx-indicator="#refresh-spinner"
+                class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition flex items-center gap-2"
+            >
+                <svg id="refresh-spinner" class="htmx-indicator animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                <svg class="w-4 h-4 htmx-request:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                Refresh
+            </button>
+        </div>
+    </div>
+
+    <!-- Stats Overview -->
+    <div id="stats-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" hx-get="/api/stats" hx-trigger="load">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 animate-pulse">
+            <div class="h-6 bg-gray-200 rounded w-1/3 mb-2"></div>
+            <div class="h-10 bg-gray-200 rounded w-1/2"></div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 animate-pulse">
+            <div class="h-6 bg-gray-200 rounded w-1/3 mb-2"></div>
+            <div class="h-10 bg-gray-200 rounded w-1/2"></div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 animate-pulse">
+            <div class="h-6 bg-gray-200 rounded w-1/3 mb-2"></div>
+            <div class="h-10 bg-gray-200 rounded w-1/2"></div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 animate-pulse">
+            <div class="h-6 bg-gray-200 rounded w-1/3 mb-2"></div>
+            <div class="h-10 bg-gray-200 rounded w-1/2"></div>
+        </div>
+    </div>
+
+    <!-- Trends Analysis -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 mb-8">
+        <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+            <h2 class="text-xl font-bold text-gray-900">Trend Analysis</h2>
+            <button 
+                hx-get="/api/trends" 
+                hx-target="#trends-content" 
+                hx-swap="innerHTML"
+                hx-indicator="#trends-spinner"
+                class="px-4 py-2 text-sm font-medium text-purple-600 bg-purple-50 hover:bg-purple-100 rounded-lg transition flex items-center gap-2"
+            >
+                <svg id="trends-spinner" class="htmx-indicator animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                Analyze Trends
+            </button>
+        </div>
+        <div id="trends-content" class="p-6">
+            <div class="text-center py-12 text-gray-500">
+                <svg class="mx-auto h-12 w-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+                <p class="text-lg">Click "Analyze Trends" to generate insights from Hindsight observations</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <a href="/ask" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:border-blue-500 hover:shadow-md transition text-left flex items-center gap-4 group">
+            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                </svg>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-900">Ask the Agent</h3>
+                <p class="text-sm text-gray-500">Query feedback with natural language</p>
+            </div>
+        </a>
+
+        <a href="/feedback" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:border-green-500 hover:shadow-md transition text-left flex items-center gap-4 group">
+            <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center group-hover:bg-green-600 group-hover:text-white transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-900">Submit Feedback</h3>
+                <p class="text-sm text-gray-500">Add new feedback to memory</p>
+            </div>
+        </a>
+
+        <a href="/demo" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:border-purple-500 hover:shadow-md transition text-left flex items-center gap-4 group">
+            <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-900">Demo Flow</h3>
+                <p class="text-sm text-gray-500">Guided 4-step memory demonstration</p>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,507 @@
+{% extends "base.html" %}
+
+{% block title %}Interactive Demo Flow - Feedback Intelligence{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in max-w-6xl mx-auto space-y-8" x-data="demoFlow()">
+    <!-- Hero Header -->
+    <div class="bg-gradient-to-br from-indigo-900 via-blue-900 to-slate-900 rounded-3xl p-8 sm:p-10 text-white shadow-xl relative overflow-hidden">
+        <div class="absolute -right-16 -top-16 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute right-32 -bottom-20 w-80 h-80 bg-purple-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div class="space-y-3 max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-semibold uppercase tracking-wider">
+                    <span>HackwithHyderabad 3.0 Demo</span>
+                    <span>•</span>
+                    <span class="text-emerald-400 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Hindsight Memory Active</span>
+                </div>
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+                    The Memory Difference
+                </h1>
+                <p class="text-blue-100/90 text-base sm:text-lg leading-relaxed font-normal">
+                    Experience firsthand how Hindsight's long-term memory transforms an AI agent from a superficial search bot into a strategic feedback analyst that understands <strong>evolution over time</strong>.
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <button 
+                    @click="resetDemo()"
+                    class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white text-xs font-semibold transition backdrop-blur-xs flex items-center justify-center gap-2"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    <span>Reset Demo State</span>
+                </button>
+                <a 
+                    href="/dashboard"
+                    class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold transition shadow-md flex items-center justify-center gap-2"
+                >
+                    <span>View Live Dashboard</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- 4-Step Interactive Stepper Bar -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-8 pt-8 border-t border-white/10 text-xs">
+            <div 
+                @click="step = 1"
+                :class="step === 1 ? 'border-blue-400 bg-white/15 text-white' : (step > 1 ? 'border-emerald-400/50 bg-white/5 text-emerald-300' : 'border-white/10 text-blue-200/60')"
+                class="p-3.5 rounded-xl border transition cursor-pointer flex items-center gap-3"
+            >
+                <div 
+                    :class="step > 1 ? 'bg-emerald-500 text-white' : (step === 1 ? 'bg-blue-500 text-white' : 'bg-white/10 text-white/60')"
+                    class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs flex-shrink-0"
+                >
+                    <template x-if="step > 1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </template>
+                    <template x-if="step <= 1"><span>1</span></template>
+                </div>
+                <div>
+                    <div class="font-bold">Step 1: Baseline</div>
+                    <div class="text-[11px] opacity-80">Load 1 Month (April)</div>
+                </div>
+            </div>
+
+            <div 
+                @click="step = 2"
+                :class="step === 2 ? 'border-blue-400 bg-white/15 text-white' : (step > 2 ? 'border-emerald-400/50 bg-white/5 text-emerald-300' : 'border-white/10 text-blue-200/60')"
+                class="p-3.5 rounded-xl border transition cursor-pointer flex items-center gap-3"
+            >
+                <div 
+                    :class="step > 2 ? 'bg-emerald-500 text-white' : (step === 2 ? 'bg-blue-500 text-white' : 'bg-white/10 text-white/60')"
+                    class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs flex-shrink-0"
+                >
+                    <template x-if="step > 2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </template>
+                    <template x-if="step <= 2"><span>2</span></template>
+                </div>
+                <div>
+                    <div class="font-bold">Step 2: Query Recent</div>
+                    <div class="text-[11px] opacity-80">"What are main problems?"</div>
+                </div>
+            </div>
+
+            <div 
+                @click="step = 3"
+                :class="step === 3 ? 'border-blue-400 bg-white/15 text-white' : (step > 3 ? 'border-emerald-400/50 bg-white/5 text-emerald-300' : 'border-white/10 text-blue-200/60')"
+                class="p-3.5 rounded-xl border transition cursor-pointer flex items-center gap-3"
+            >
+                <div 
+                    :class="step > 3 ? 'bg-emerald-500 text-white' : (step === 3 ? 'bg-blue-500 text-white' : 'bg-white/10 text-white/60')"
+                    class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs flex-shrink-0"
+                >
+                    <template x-if="step > 3">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </template>
+                    <template x-if="step <= 3"><span>3</span></template>
+                </div>
+                <div>
+                    <div class="font-bold">Step 3: Expand Memory</div>
+                    <div class="text-[11px] opacity-80">Load 4 Months History</div>
+                </div>
+            </div>
+
+            <div 
+                @click="step = 4"
+                :class="step === 4 ? 'border-purple-400 bg-white/15 text-white' : 'border-white/10 text-blue-200/60'"
+                class="p-3.5 rounded-xl border transition cursor-pointer flex items-center gap-3"
+            >
+                <div 
+                    :class="step === 4 ? 'bg-purple-500 text-white' : 'bg-white/10 text-white/60'"
+                    class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs flex-shrink-0"
+                >
+                    <span>4</span>
+                </div>
+                <div>
+                    <div class="font-bold">Step 4: The 'Aha!' Moment</div>
+                    <div class="text-[11px] opacity-80">Temporal Reasoning</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Step Work Area -->
+    <div class="bg-white rounded-3xl p-6 sm:p-10 border border-gray-100 shadow-sm space-y-8">
+        
+        <!-- STEP 1 CONTENT -->
+        <div x-show="step === 1" class="space-y-6 animate-fade-in">
+            <div class="flex items-start justify-between flex-wrap gap-4">
+                <div>
+                    <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">Step 1 of 4</span>
+                    <h2 class="text-2xl font-bold text-gray-900 mt-2">Establish the Baseline (Recent Memory Only)</h2>
+                    <p class="text-gray-600 text-sm mt-1 max-w-2xl leading-relaxed">
+                        To demonstrate how an agent behaves <em>without</em> long-term memory, we first ingest only the most recent month of user feedback (April 2025). The agent can only reason over what it has seen.
+                    </p>
+                </div>
+                <div class="p-4 bg-gray-50 border border-gray-200 rounded-2xl text-xs space-y-1">
+                    <div class="text-gray-400 uppercase font-semibold">Simulated Environment</div>
+                    <div class="font-bold text-gray-800">Time Window: April 1 - April 30, 2025</div>
+                    <div class="text-gray-500">Historical Data: Unretained / Excluded</div>
+                </div>
+            </div>
+
+            <!-- Action Card -->
+            <div class="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div class="space-y-1">
+                    <h4 class="font-bold text-gray-900 text-base">Load 1 Month of Feedback (April 2025)</h4>
+                    <p class="text-gray-600 text-xs">Injects ~30-40 verified feedback records across support tickets, in-app notes, and customer calls.</p>
+                </div>
+                <button 
+                    @click="loadRecentData()"
+                    :disabled="loading"
+                    class="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-xl font-bold text-sm transition shadow-sm hover:shadow-md flex items-center justify-center gap-2 flex-shrink-0"
+                >
+                    <svg x-show="loading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    <span x-text="loading ? 'Retaining to Hindsight...' : '1. Load Recent Feedback Now'"></span>
+                </button>
+            </div>
+
+            <!-- Result Box -->
+            <div x-show="step1Done" class="p-5 bg-emerald-50 border border-emerald-200 rounded-2xl animate-fade-in flex items-center justify-between flex-wrap gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-emerald-950 text-sm">Baseline Memories Loaded into Hindsight Bank!</h4>
+                        <p class="text-xs text-emerald-800">The agent now possesses April feedback. Let's query it in Step 2.</p>
+                    </div>
+                </div>
+                <button 
+                    @click="step = 2"
+                    class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5"
+                >
+                    <span>Proceed to Step 2</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 2 CONTENT -->
+        <div x-show="step === 2" class="space-y-6 animate-fade-in">
+            <div class="flex items-start justify-between flex-wrap gap-4">
+                <div>
+                    <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">Step 2 of 4</span>
+                    <h2 class="text-2xl font-bold text-gray-900 mt-2">Query Recent Memory (Short-Term View)</h2>
+                    <p class="text-gray-600 text-sm mt-1 max-w-2xl leading-relaxed">
+                        We ask the agent: <em>"What are the biggest complaints users are experiencing right now?"</em> Notice that without history, the agent has no idea if the PDF bug is new, persistent, or recurring.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Query Box -->
+            <div class="p-6 bg-gray-50 border border-gray-200 rounded-2xl space-y-4">
+                <div class="flex items-center justify-between text-xs text-gray-500 font-medium">
+                    <span>Proposed Query</span>
+                    <span class="text-blue-600">Memory Scope: April 2025</span>
+                </div>
+                <div class="p-4 bg-white border border-gray-300 rounded-xl font-medium text-gray-900 text-base shadow-xs">
+                    "What are the main problems users are experiencing right now?"
+                </div>
+                <div class="flex justify-end">
+                    <button 
+                        @click="runQuery2()"
+                        :disabled="loading"
+                        class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-xl font-bold text-sm transition shadow-sm flex items-center gap-2"
+                    >
+                        <svg x-show="loading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                        <span x-text="loading ? 'Recalling April Memories...' : '2. Run Query (Recent Only)'"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Agent Response Preview -->
+            <div x-show="query2Result" class="space-y-4 animate-fade-in">
+                <div class="p-6 bg-white border border-gray-200 rounded-2xl shadow-xs space-y-3">
+                    <div class="flex items-center justify-between text-xs pb-3 border-b border-gray-100">
+                        <span class="font-bold text-gray-900">Agent Diagnosis (Recent-Only Perspective)</span>
+                        <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-medium">Limited Context</span>
+                    </div>
+                    <div class="prose prose-sm max-w-none text-gray-800" x-html="query2Result"></div>
+                </div>
+
+                <div class="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-center justify-between flex-wrap gap-4">
+                    <div class="text-xs text-amber-900">
+                        <strong>Insight:</strong> The agent notices PDF upload failures in April, but it has <em>no historical baseline</em> to determine whether this was a regression from March or an unaddressed bug from January!
+                    </div>
+                    <button 
+                        @click="step = 3"
+                        class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5"
+                    >
+                        <span>Next: Expand Long-Term Memory</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3 CONTENT -->
+        <div x-show="step === 3" class="space-y-6 animate-fade-in">
+            <div class="flex items-start justify-between flex-wrap gap-4">
+                <div>
+                    <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-bold uppercase tracking-wider">Step 3 of 4</span>
+                    <h2 class="text-2xl font-bold text-gray-900 mt-2">Expand Memory with 4 Months of History</h2>
+                    <p class="text-gray-600 text-sm mt-1 max-w-2xl leading-relaxed">
+                        Now we ingest the full 4-month timeline (January to April 2025). Hindsight stores each piece of feedback with its original timestamp, product area tags, and consolidates recurring patterns into <strong>Observations</strong>.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Ingestion Action Card -->
+            <div class="p-6 bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-100 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div class="space-y-1">
+                    <h4 class="font-bold text-gray-900 text-base">Load 4-Month Historical Dataset (Jan - Apr 2025)</h4>
+                    <p class="text-gray-600 text-xs">Retains ~200 items capturing the complete evolution of PDF uploads, login improvements, mobile stability, and billing updates.</p>
+                </div>
+                <button 
+                    @click="loadHistoricalData()"
+                    :disabled="loading"
+                    class="w-full sm:w-auto px-6 py-3 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white rounded-xl font-bold text-sm transition shadow-sm hover:shadow-md flex items-center justify-center gap-2 flex-shrink-0"
+                >
+                    <svg x-show="loading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    <span x-text="loading ? 'Consolidating Observations...' : '3. Load 4-Month Dataset Now'"></span>
+                </button>
+            </div>
+
+            <!-- Result Box -->
+            <div x-show="step3Done" class="p-5 bg-emerald-50 border border-emerald-200 rounded-2xl animate-fade-in flex items-center justify-between flex-wrap gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-emerald-950 text-sm">Hindsight Memory Bank Fully Loaded & Synced!</h4>
+                        <p class="text-xs text-emerald-800">Over 200 memories spanning 4 months are now indexed. Ready for the critical comparison.</p>
+                    </div>
+                </div>
+                <button 
+                    @click="step = 4"
+                    class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5"
+                >
+                    <span>Proceed to The Aha! Moment</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 4 CONTENT -->
+        <div x-show="step === 4" class="space-y-6 animate-fade-in">
+            <div class="flex items-start justify-between flex-wrap gap-4">
+                <div>
+                    <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-bold uppercase tracking-wider">Step 4 of 4 • The Aha! Moment</span>
+                    <h2 class="text-2xl font-bold text-gray-900 mt-2">Temporal Reasoning Across Time</h2>
+                    <p class="text-gray-600 text-sm mt-1 max-w-2xl leading-relaxed">
+                        Now ask the key temporal question: <em>"How has the PDF upload problem changed over time?"</em>
+                        Because the agent remembers January through April, it will synthesize the complete causal story!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Query Box -->
+            <div class="p-6 bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-2xl space-y-4">
+                <div class="flex items-center justify-between text-xs text-gray-500 font-medium">
+                    <span>Temporal Query</span>
+                    <span class="text-purple-700 font-semibold">Memory Scope: Full 4 Months (Jan - Apr)</span>
+                </div>
+                <div class="p-4 bg-white border border-purple-300 rounded-xl font-bold text-gray-900 text-lg shadow-xs flex items-center justify-between">
+                    <span>"How has the PDF upload problem changed over time?"</span>
+                </div>
+                <div class="flex justify-end">
+                    <button 
+                        @click="runQuery4()"
+                        :disabled="loading"
+                        class="px-8 py-3 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white rounded-xl font-bold text-base transition shadow-md hover:shadow-lg flex items-center gap-2"
+                    >
+                        <svg x-show="loading" class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                        <span x-text="loading ? 'Recalling & Analyzing 4 Months...' : '4. Run Temporal Analysis'"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Agent Full Response Preview -->
+            <div x-show="query4Result" class="space-y-6 animate-fade-in">
+                <div class="p-8 bg-white border-2 border-purple-200 rounded-3xl shadow-sm space-y-4">
+                    <div class="flex items-center justify-between text-xs pb-4 border-b border-gray-100">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-purple-600"></span>
+                            <span class="font-bold text-gray-900 text-sm">Hindsight Agent Temporal Synthesis</span>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-full bg-purple-100 text-purple-800 font-semibold text-xs">High-Budget TEMPR Recall</span>
+                    </div>
+
+                    <div class="prose prose-sm max-w-none text-gray-800 leading-relaxed" x-html="query4Result"></div>
+                </div>
+
+                <!-- The Proof: Before vs After Comparison Card -->
+                <div class="p-8 bg-gray-900 rounded-3xl text-white space-y-6">
+                    <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span>🎯 The Proof: Why Memory is Essential</span>
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-5 bg-white/5 border border-white/10 rounded-2xl space-y-3">
+                            <div class="text-rose-400 font-bold text-sm flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                <span>Without Long-Term Memory (Step 2)</span>
+                            </div>
+                            <ul class="text-xs text-gray-300 space-y-2 list-disc list-inside">
+                                <li>Sees only that PDF uploads are failing in April.</li>
+                                <li>Cannot answer <em>"When did this start?"</em></li>
+                                <li>Misdiagnoses the failure as a new, sudden outage.</li>
+                                <li>Misses that Login issues were actually fixed by SSO.</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-5 bg-white/10 border border-purple-400/30 rounded-2xl space-y-3">
+                            <div class="text-emerald-400 font-bold text-sm flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>With Hindsight Memory (Step 4)</span>
+                            </div>
+                            <ul class="text-xs text-blue-100 space-y-2 list-disc list-inside">
+                                <li>Traces root cause: <strong>Slow in Jan → Timeouts in Mar → Failing in Apr</strong>.</li>
+                                <li>Identifies March deploy as the inflection point.</li>
+                                <li>Celebrates Login/Billing fixes while raising alarms on PDF.</li>
+                                <li>Quantifies exact mention frequencies and cites verbatim evidence.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function renderMd(text) {
+    if (!text) return '';
+    try {
+        if (typeof marked !== 'undefined' && typeof marked.parse === 'function') {
+            return marked.parse(text);
+        }
+        if (typeof marked === 'function') {
+            return marked(text);
+        }
+    } catch(e) {
+        console.warn('Markdown parser note:', e);
+    }
+    return text
+        .replace(/### (.*?)\n/g, '<h3 class="text-base font-bold text-gray-900 mt-4 mb-1">$1</h3>')
+        .replace(/## (.*?)\n/g, '<h2 class="text-lg font-bold text-gray-900 mt-5 mb-2">$1</h2>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`([^`]+)`/g, '<code class="bg-gray-100 text-blue-700 px-1 py-0.5 rounded text-xs font-mono">$1</code>')
+        .replace(/\n\n/g, '<br><br>')
+        .replace(/\n/g, '<br>');
+}
+
+function demoFlow() {
+    return {
+        step: 1,
+        loading: false,
+        step1Done: false,
+        step3Done: false,
+        query2Result: '',
+        query4Result: '',
+
+        // Markdown renderer with fallback
+        renderMd(text) {
+            if (typeof marked !== 'undefined') {
+                return marked.parse(text);
+            }
+            // Fallback: basic markdown to HTML
+            return String(text)
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`(.*?)`/g, '<code>$1</code>')
+                .replace(/### (.*?)\n/g, '<h3>$1</h3>')
+                .replace(/## (.*?)\n/g, '<h2>$1</h2>')
+                .replace(/# (.*?)\n/g, '<h1>$1</h1>')
+                .replace(/\n/g, '<br>');
+        },
+
+        async loadRecentData() {
+            this.loading = true;
+            try {
+                const res = await fetch('/api/demo/load-recent', { method: 'POST' });
+                const data = await res.json();
+                this.step1Done = true;
+            } catch (e) {
+                console.error(e);
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        async runQuery2() {
+            this.loading = true;
+            try {
+                const res = await fetch('/api/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question: "What are the main problems users are experiencing right now?",
+                        budget: "high"
+                    })
+                });
+                const data = await res.json();
+                this.query2Result = this.renderMd(data.answer);
+            } catch (e) {
+                console.error(e);
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        async loadHistoricalData() {
+            this.loading = true;
+            try {
+                const res = await fetch('/api/demo/load-historical', { method: 'POST' });
+                const data = await res.json();
+                this.step3Done = true;
+            } catch (e) {
+                console.error(e);
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        async runQuery4() {
+            this.loading = true;
+            try {
+                const res = await fetch('/api/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question: "How has the PDF upload problem changed over time?",
+                        budget: "high"
+                    })
+                });
+                const data = await res.json();
+                this.query4Result = this.renderMd(data.answer);
+            } catch (e) {
+                console.error(e);
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        async resetDemo() {
+            if (confirm("Reset demo memory? This allows running the 4 steps completely fresh.")) {
+                await fetch('/api/demo/reset', { method: 'POST' });
+                this.step = 1;
+                this.step1Done = false;
+                this.step3Done = false;
+                this.query2Result = '';
+                this.query4Result = '';
+            }
+        }
+    }
+}
+</script>
+
+<!-- Include marked.js for rich markdown parsing in browser -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}User Feedback Intelligence Agent{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in">
+    <!-- Hero Section -->
+    <div class="text-center py-16 sm:py-24">
+        <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-6">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+            </span>
+            <span class="ml-2">HackwithHyderabad 3.0 Demo</span>
+        </div>
+        
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            AI-Powered Feedback Intelligence
+            <br><span class="text-blue-600">That Remembers Everything</span>
+        </h1>
+        
+        <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
+            Submit feedback, ask questions, and get insights powered by Hindsight's long-term memory. 
+            The more feedback it remembers, the more useful its analysis becomes.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="/demo" class="w-full sm:w-auto px-8 py-4 text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-shadow shadow-lg hover:shadow-xl">
+                Start Interactive Demo
+            </a>
+            <a href="/ask" class="w-full sm:w-auto px-8 py-4 text-lg font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-xl transition">
+                Ask the Agent
+            </a>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="py-16 bg-white rounded-2xl shadow-sm border border-gray-100 mb-12">
+        <h2 class="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-12">How It Works</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center p-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Submit Feedback</h3>
+                <p class="text-gray-600">Submit individual feedback or import CSV/JSON datasets. Each piece is stored in Hindsight's memory with full context.</p>
+            </div>
+            <div class="text-center p-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-purple-100 text-purple-600 mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.734-.988-2.386l-.548-.547z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Ask Questions</h3>
+                <p class="text-gray-600">Ask the agent anything about user feedback. It recalls relevant historical memories and reasons over them.</p>
+            </div>
+            <div class="text-center p-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-green-100 text-green-600 mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Get Insights</h3>
+                <p class="text-gray-600">Receive evidence-based answers with citations. See how problems evolve over time with historical context.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Features -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+            <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                <svg class="w-6 h-6 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                Core Capabilities
+            </h3>
+            <ul class="space-y-3 text-gray-600">
+                <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> Historical trend analysis with temporal reasoning</li>
+                <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> Sentiment tracking across product areas</li>
+                <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> Emerging issue detection</li>
+                <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> Before/after comparison (pre/post product changes)</li>
+                <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> Evidence citations for every claim</li>
+                <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> Multi-strategy recall (semantic, keyword, graph, temporal)</li>
+            </ul>
+        </div>
+        
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+            <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                <svg class="w-6 h-6 text-purple-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                </svg>
+                Hindsight Memory Features
+            </h3>
+            <ul class="space-y-3 text-gray-600">
+                <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> <strong>Observations:</strong> Consolidated, evidence-backed beliefs</li>
+                <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> <strong>TEMPR Recall:</strong> 4-way parallel retrieval</li>
+                <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> <strong>Temporal queries:</strong> "What changed since March?"</li>
+                <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> <strong>Entity graphs:</strong> Connect related feedback</li>
+                <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> <strong>Per-tag scoping:</strong> Isolated observations per product area</li>
+                <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> <strong>Embedded server:</strong> Runs locally, no external dependencies</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Demo Flow Preview -->
+    <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 sm:p-12 text-white">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-4">The Demo Flow</h2>
+        <p class="text-blue-100 mb-8 max-w-2xl">Experience the power of memory in 4 steps:</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="text-center">
+                <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3 text-2xl font-bold">1</div>
+                <h4 class="font-semibold mb-1">Recent Only</h4>
+                <p class="text-blue-100 text-sm">Load last month's feedback</p>
+            </div>
+            <div class="text-center">
+                <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3 text-2xl font-bold">2</div>
+                <h4 class="font-semibold mb-1">Ask Question</h4>
+                <p class="text-blue-100 text-sm">"Main problems?"</p>
+            </div>
+            <div class="text-center">
+                <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3 text-2xl font-bold">3</div>
+                <h4 class="font-semibold mb-1">Load History</h4>
+                <p class="text-blue-100 text-sm">Add 4 months of data</p>
+            </div>
+            <div class="text-center">
+                <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3 text-2xl font-bold">4</div>
+                <h4 class="font-semibold mb-1">Ask Again</h4>
+                <p class="text-blue-100 text-sm">See the difference!</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
