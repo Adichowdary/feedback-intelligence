@@ -3,516 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vera — AI Feedback Intelligence Agent with Long-Term Memory</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Vera - Feedback Intelligence Agent</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
-                    },
-                    colors: {
-                        primary: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"></script>
-    <!-- Marked.js -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/alpinejs@3.13.3/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        code, pre { font-family: 'JetBrains Mono', monospace; }
-        .gradient-glow {
-            background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.18) 0%, transparent 70%);
-        }
+        * { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
+        .prose { @apply text-gray-800 leading-relaxed; }
+        .prose h1 { @apply text-2xl font-bold mb-4 text-gray-900; }
+        .prose h2 { @apply text-xl font-bold mb-3 mt-6 text-gray-900 border-b border-gray-100 pb-2; }
+        .prose h3 { @apply text-lg font-bold mb-2 mt-4 text-gray-900; }
+        .prose p { @apply mb-3 text-sm text-gray-700 leading-relaxed; }
+        .prose ul { @apply list-disc list-inside mb-4 space-y-1.5 text-sm text-gray-700; }
+        .prose ol { @apply list-decimal list-inside mb-4 space-y-1.5 text-sm text-gray-700; }
+        .prose code { @apply bg-gray-100 text-blue-700 px-1.5 py-0.5 rounded text-xs font-mono font-semibold; }
+        .prose pre { @apply bg-slate-900 text-slate-100 p-4 rounded-xl overflow-x-auto mb-4 text-xs font-mono; }
+        .prose pre code { @apply bg-transparent p-0 text-inherit; }
+        .prose strong { @apply font-bold text-gray-900; }
+        .prose a { @apply text-blue-600 hover:underline font-medium; }
+        .prose blockquote { @apply border-l-4 border-blue-500 pl-4 italic text-gray-600 my-4 bg-blue-50/50 py-2 rounded-r-lg text-sm; }
+        .prose table { @apply w-full text-xs text-left border-collapse my-4 border border-gray-200 rounded-lg overflow-hidden; }
+        .prose th { @apply bg-gray-100 p-2.5 font-bold text-gray-900 border border-gray-200; }
+        .prose td { @apply p-2.5 border border-gray-200 text-gray-700; }
+        
+        /* HTMX transitions */
+        .htmx-indicator { display: none; }
+        .htmx-request .htmx-indicator { display: inline-flex; }
+        .htmx-request.htmx-indicator { display: inline-flex; }
+        
+        /* Smooth fade */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.25s ease-out; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f8fafc; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen antialiased selection:bg-blue-500 selection:text-white" x-data="veraApp()" x-init="initChart()">
+<body class="bg-slate-50 min-h-screen flex flex-col text-slate-900 antialiased">
+    <!-- Top Bar Navigation -->
+    <nav class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-6">
+                    <a href="/" class="flex items-center space-x-2.5 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.734-.988-2.386l-.548-.547z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="text-base font-extrabold tracking-tight text-slate-900 block leading-tight">Vera</span>
+                            <span class="text-[10px] text-blue-600 font-bold uppercase tracking-wider block">Feedback Intelligence</span>
+                        </div>
+                    </a>
 
-    <!-- Top Navigation Bar -->
-    <nav class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/20 text-xl font-black">
-                    🧠
+                    <!-- Engine Status Pill -->
+                    <div class="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>Bank: <code>feedback-intelligence</code></span>
+                    </div>
                 </div>
-                <div>
-                    <span class="text-xl font-bold tracking-tight text-white">Vera</span>
-                    <span class="text-xs ml-2 px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 font-semibold border border-blue-500/30">AI Feedback Agent</span>
+
+                <div class="flex items-center space-x-1 sm:space-x-2">
+                    <a href="/feedback" class="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg transition text-slate-600 hover:text-slate-900 hover:bg-slate-100">Submit</a>
+                    <a href="/import" class="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg transition text-slate-600 hover:text-slate-900 hover:bg-slate-100">Import Data</a>
+                    <a href="/ask" class="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg transition text-slate-600 hover:text-slate-900 hover:bg-slate-100">Ask Vera</a>
+                    <a href="/dashboard" class="px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg transition text-slate-600 hover:text-slate-900 hover:bg-slate-100">Dashboard</a>
+                    <a href="/demo" class="ml-2 px-4 py-2 text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl transition shadow-md shadow-blue-500/20 flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>Demo Flow</span>
+                    </a>
                 </div>
-            </div>
-
-            <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
-                <a href="#demo" class="hover:text-white transition">Interactive Demo</a>
-                <a href="#ask" class="hover:text-white transition">Ask Agent</a>
-                <a href="#architecture" class="hover:text-white transition">Architecture</a>
-                <a href="#citations" class="hover:text-white transition">Timeline Evidence</a>
-            </div>
-
-            <div class="flex items-center gap-3">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    AI Memory Platform
-                </span>
-                <a href="https://github.com/Adichowdary/feedback-intelligence" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold border border-slate-700 transition flex items-center gap-1.5">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-                    <span>GitHub</span>
-                </a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <div class="relative overflow-hidden pt-16 pb-20 gradient-glow">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold mb-6">
-                <span>Track: Agentic Memory & Reasoning</span>
-                <span>•</span>
-                <span class="text-purple-400 font-bold">Powered by Hindsight</span>
-            </div>
-
-            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight max-w-4xl mx-auto mb-6">
-                Giving User Feedback <span class="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">a Long-Term Memory</span>
-            </h1>
-
-            <p class="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed mb-10">
-                Traditional AI assistants suffer from amnesia—they only see isolated tickets. <strong>Vera</strong> uses Hindsight's multi-month memory bank to reason about <strong>temporal bug evolution</strong>, track sentiment shifts, and verify product resolutions.
-            </p>
-
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#demo" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-lg shadow-blue-500/30 transition">
-                    🚀 Launch 4-Step Interactive Demo
-                </a>
-                <a href="#ask" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm border border-slate-700 transition">
-                    💬 Try "Ask with Reflect"
-                </a>
-            </div>
-
-            <!-- Stats Ribbon -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 max-w-4xl mx-auto text-left">
-                <div class="p-4 rounded-2xl bg-slate-800/60 border border-slate-700/60">
-                    <div class="text-2xl font-bold text-white">285+</div>
-                    <div class="text-xs text-slate-400 mt-1">Multi-Month Memories</div>
-                </div>
-                <div class="p-4 rounded-2xl bg-slate-800/60 border border-slate-700/60">
-                    <div class="text-2xl font-bold text-emerald-400">4 Stages</div>
-                    <div class="text-xs text-slate-400 mt-1">Bug Evolution Traced</div>
-                </div>
-                <div class="p-4 rounded-2xl bg-slate-800/60 border border-slate-700/60">
-                    <div class="text-2xl font-bold text-purple-400">areflect()</div>
-                    <div class="text-xs text-slate-400 mt-1">Deep Pattern Synthesis</div>
-                </div>
-                <div class="p-4 rounded-2xl bg-slate-800/60 border border-slate-700/60">
-                    <div class="text-2xl font-bold text-blue-400">34 Passed</div>
-                    <div class="text-xs text-slate-400 mt-1">Automated Test Suites</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Interactive 4-Step Demo Flow -->
-    <section id="demo" class="py-16 bg-slate-950 border-y border-slate-800/80">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div>
-                    <span class="text-xs font-bold text-blue-400 tracking-wider uppercase">Hands-on Experience</span>
-                    <h2 class="text-3xl font-extrabold text-white mt-1">The Memory Difference: 4-Step Interactive Flow</h2>
-                    <p class="text-slate-400 text-sm mt-1">Experience how long-term memory transforms an agent from a superficial search bot into a strategic analyst.</p>
-                </div>
-                <button @click="resetDemo()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 transition self-start">
-                    ↺ Reset Demo State
-                </button>
-            </div>
-
-            <!-- Stepper Buttons -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-                <button @click="step = 1" :class="step === 1 ? 'border-blue-500 bg-blue-500/10 text-white' : (step > 1 ? 'border-emerald-500/40 bg-emerald-500/5 text-emerald-300' : 'border-slate-800 bg-slate-900 text-slate-500')" class="p-4 rounded-xl border text-left transition">
-                    <div class="font-bold flex items-center justify-between">
-                        <span>1. Ingest Recent</span>
-                        <span x-show="step > 1" class="text-emerald-400">✓</span>
-                    </div>
-                    <div class="text-[11px] opacity-75 mt-1">Establish 1-Month Baseline</div>
-                </button>
-                <button @click="step = 2" :class="step === 2 ? 'border-blue-500 bg-blue-500/10 text-white' : (step > 2 ? 'border-emerald-500/40 bg-emerald-500/5 text-emerald-300' : 'border-slate-800 bg-slate-900 text-slate-500')" class="p-4 rounded-xl border text-left transition">
-                    <div class="font-bold flex items-center justify-between">
-                        <span>2. Query Baseline</span>
-                        <span x-show="step > 2" class="text-emerald-400">✓</span>
-                    </div>
-                    <div class="text-[11px] opacity-75 mt-1">The Stateless Misdiagnosis</div>
-                </button>
-                <button @click="step = 3" :class="step === 3 ? 'border-blue-500 bg-blue-500/10 text-white' : (step > 3 ? 'border-emerald-500/40 bg-emerald-500/5 text-emerald-300' : 'border-slate-800 bg-slate-900 text-slate-500')" class="p-4 rounded-xl border text-left transition">
-                    <div class="font-bold flex items-center justify-between">
-                        <span>3. Expand Memory</span>
-                        <span x-show="step > 3" class="text-emerald-400">✓</span>
-                    </div>
-                    <div class="text-[11px] opacity-75 mt-1">Ingest 4-Month Timeline</div>
-                </button>
-                <button @click="step = 4" :class="step === 4 ? 'border-purple-500 bg-purple-500/10 text-white' : 'border-slate-800 bg-slate-900 text-slate-500'" class="p-4 rounded-xl border text-left transition">
-                    <div class="font-bold flex items-center justify-between">
-                        <span>4. The "Aha!" Moment</span>
-                        <span class="text-purple-400">⚡</span>
-                    </div>
-                    <div class="text-[11px] opacity-75 mt-1">4-Month Temporal Story</div>
-                </button>
-            </div>
-
-            <!-- Live Chart.js Memory Growth Card -->
-            <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 pb-4 border-b border-slate-800">
-                    <div>
-                        <div class="text-xs font-bold text-blue-400 uppercase tracking-wider">Hindsight Memory Bank Scaling</div>
-                        <h3 class="text-lg font-bold text-white mt-0.5">Live Retained Observation Counter</h3>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <div class="text-right">
-                            <span class="text-2xl font-black text-white" x-text="memCount"></span>
-                            <span class="text-xs text-slate-400 ml-1">records indexed</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="h-44 w-full">
-                    <canvas id="memoryChart"></canvas>
-                </div>
-            </div>
-
-            <!-- STEP 1 CONTAINER -->
-            <div x-show="step === 1" class="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-6">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-sm">1</div>
-                    <h3 class="text-xl font-bold text-white">Step 1: Ingest Recent (1 Month) Feedback</h3>
-                </div>
-                <p class="text-slate-300 text-sm leading-relaxed">
-                    First, we seed Hindsight with recent feedback representing only the past 30 days (April 2025). The agent has zero knowledge of prior months.
-                </p>
-                <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-slate-300 space-y-1">
-                    <div>> Ingesting: data/demo_feedback_recent.csv (April 2025)</div>
-                    <div>> Tags: product_area:pdf_upload, product_area:login, product_area:billing</div>
-                    <div>> Memory Status: <span class="text-blue-400">60 recent records retained</span></div>
-                </div>
-                <div class="flex gap-3">
-                    <button @click="loadRecent()" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm transition shadow-md shadow-blue-500/20">
-                        1. Load Recent Feedback Now
-                    </button>
-                    <button x-show="recentLoaded" @click="step = 2" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-sm border border-slate-700 transition">
-                        Proceed to Step 2 →
-                    </button>
-                </div>
-            </div>
-
-            <!-- STEP 2 CONTAINER -->
-            <div x-show="step === 2" class="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-6">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-sm">2</div>
-                    <h3 class="text-xl font-bold text-white">Step 2: Query Baseline Without History (The Flaw)</h3>
-                </div>
-                <p class="text-slate-300 text-sm leading-relaxed">
-                    Now we ask Vera: <em>"What are the main problems users are experiencing right now?"</em> Because it only possesses April feedback, notice how it misdiagnoses the root cause.
-                </p>
-                <button @click="runQuery2()" class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-sm transition">
-                    2. Run Query (Recent Only View)
-                </button>
-                <div x-show="query2Output" class="p-5 rounded-xl bg-slate-950 border border-amber-500/30 text-xs space-y-3">
-                    <div class="font-bold text-amber-400 uppercase text-[11px] tracking-wider">Agent Response (Stateless Vision)</div>
-                    <div class="text-slate-300 leading-relaxed space-y-2">
-                        <p><strong>Executive Summary:</strong> Based on April 2025 feedback, users report critical failures in PDF uploads with 504 Gateway Timeouts.</p>
-                        <p class="text-amber-200/90 font-medium">⚠️ <strong>Misdiagnosis:</strong> "This appears to be a sudden, isolated regression likely caused by the most recent patch."</p>
-                        <p class="text-slate-400 italic">Limitation: The agent has no baseline and assumes this bug just started yesterday. It cannot detect the 4-month degradation.</p>
-                    </div>
-                    <button @click="step = 3" class="mt-2 px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold">
-                        Proceed to Step 3: Expand Memory →
-                    </button>
-                </div>
-            </div>
-
-            <!-- STEP 3 CONTAINER -->
-            <div x-show="step === 3" class="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-6">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm">3</div>
-                    <h3 class="text-xl font-bold text-white">Step 3: Expand Memory (4 Months of History)</h3>
-                </div>
-                <p class="text-slate-300 text-sm leading-relaxed">
-                    Now we unlock Hindsight's full capability by retaining 4 months of historical records (January to April 2025). Watch the live memory graph jump!
-                </p>
-                <div class="flex gap-3">
-                    <button @click="loadHistorical()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition shadow-md shadow-emerald-500/20">
-                        3. Load 4-Month Dataset Now
-                    </button>
-                    <button x-show="histLoaded" @click="step = 4" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm transition shadow-md shadow-purple-500/20">
-                        Proceed to The "Aha!" Moment →
-                    </button>
-                </div>
-            </div>
-
-            <!-- STEP 4 CONTAINER (THE AHA MOMENT) -->
-            <div x-show="step === 4" class="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-purple-500/30 space-y-8">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-sm">4</div>
-                        <h3 class="text-xl font-bold text-white">Step 4: The "Aha!" Moment — Temporal Reasoning</h3>
-                    </div>
-                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">Hindsight areflect() Active</span>
-                </div>
-                <p class="text-slate-300 text-sm leading-relaxed">
-                    Now we ask the question that zero stateless LLMs can answer:  
-                    <strong class="text-white">"How has the PDF upload problem changed over time?"</strong>
-                </p>
-                <button @click="runQuery4()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm transition shadow-lg shadow-purple-500/30">
-                    4. Run Temporal Analysis
-                </button>
-
-                <div x-show="query4Output" class="space-y-6 pt-4 border-t border-slate-800">
-                    <!-- Visual Chronological Timeline -->
-                    <div class="space-y-4">
-                        <div class="text-xs font-bold text-purple-400 uppercase tracking-wider">Chronological 4-Stage Trajectory Traced by Agent</div>
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
-                            <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
-                                <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold text-[10px]">Jan 2025</span>
-                                <div class="font-bold text-white">Stage 1: Warning Signs</div>
-                                <div class="text-slate-400">Uploads took 30s on large files. Mild friction.</div>
-                            </div>
-                            <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
-                                <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-[10px]">Feb 2025</span>
-                                <div class="font-bold text-white">Stage 2: Chronic Friction</div>
-                                <div class="text-slate-400">Degradation persisted unmonitored without engineering action.</div>
-                            </div>
-                            <div class="p-4 rounded-xl bg-slate-950 border border-amber-500/40 space-y-2">
-                                <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-[10px]">Mar 2025</span>
-                                <div class="font-bold text-amber-400">Stage 3: Breaking Point</div>
-                                <div class="text-slate-300">v2.4 deploy tightened timeout limits; fatal 504 errors began.</div>
-                            </div>
-                            <div class="p-4 rounded-xl bg-slate-950 border border-rose-500/40 space-y-2">
-                                <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold text-[10px]">Apr 2025</span>
-                                <div class="font-bold text-rose-400">Stage 4: Critical Blocker</div>
-                                <div class="text-slate-300">100% failure rate on attachments. Workflow blockage.</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Before vs After Comparison Card -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                        <div class="p-5 rounded-xl bg-slate-950 border border-rose-500/30 space-y-2">
-                            <div class="font-bold text-rose-400 uppercase text-[11px]">Without Long-Term Memory (April Only)</div>
-                            <p class="text-slate-300">"PDF uploads broke suddenly in April. Probably a bad commit deployed yesterday."</p>
-                            <div class="text-rose-300 font-medium">Result: Engineers waste days searching for phantom regressions in yesterday's PR.</div>
-                        </div>
-                        <div class="p-5 rounded-xl bg-slate-950 border border-emerald-500/30 space-y-2">
-                            <div class="font-bold text-emerald-400 uppercase text-[11px]">With Hindsight Long-Term Memory (Jan-Apr)</div>
-                            <p class="text-slate-300">"This is a 4-month latency bottleneck that collapsed under March proxy limits. Also, Login complaints dropped 92% post-SSO!"</p>
-                            <div class="text-emerald-300 font-medium">Result: Pinpoints exact root cause + confirms success of authentication update.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Interactive Ask Vera (Conversational Agent Simulator) -->
-    <section id="ask" class="py-16 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div>
-            <span class="text-xs font-bold text-purple-400 tracking-wider uppercase">Natural Language Chat</span>
-            <h2 class="text-3xl font-extrabold text-white mt-1">Ask Vera: Conversational Intelligence</h2>
-            <p class="text-slate-400 text-sm mt-1">Ask strategic questions and watch Vera synthesize answers with memory citations.</p>
-        </div>
-
-        <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-            <div class="flex flex-wrap gap-2 text-xs">
-                <span class="text-slate-400 self-center mr-1">Suggested Inquiries:</span>
-                <button @click="queryInput = 'How has the PDF upload problem changed over time?'; submitChat('reflect')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
-                    ⚡ PDF upload evolution
-                </button>
-                <button @click="queryInput = 'What did users say about login before and after SSO?'; submitChat('standard')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
-                    🔐 Login before vs after SSO
-                </button>
-                <button @click="queryInput = 'Which product areas receive the most negative feedback?'; submitChat('standard')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
-                    🚨 Negative feedback areas
-                </button>
-            </div>
-
-            <div class="flex gap-2">
-                <input type="text" x-model="queryInput" placeholder="Ask Vera about customer issues, temporal trends, or release impact..." class="flex-1 px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-blue-500">
-                <button @click="submitChat('standard')" class="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm transition">
-                    Ask Vera
-                </button>
-                <button @click="submitChat('reflect')" class="px-5 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm transition flex items-center gap-1.5">
-                    <span>Ask with Reflect</span>
-                    <span class="text-xs bg-purple-400/20 px-1.5 py-0.5 rounded">Deep</span>
-                </button>
-            </div>
-
-            <!-- Chat Output Box -->
-            <div x-show="chatResponse" class="p-6 rounded-xl bg-slate-950 border border-slate-800 space-y-4 text-sm mt-4">
-                <div class="flex items-center justify-between pb-3 border-b border-slate-800 text-xs">
-                    <span class="font-bold text-purple-400 flex items-center gap-1.5">
-                        <span class="w-2 h-2 rounded-full bg-purple-400"></span>
-                        Vera Intelligence Agent
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="animate-fade-in">
+            <!-- Hero Section -->
+            <div class="text-center py-16 sm:py-24">
+                <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-6">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                     </span>
-                    <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[11px]" x-text="chatMode"></span>
+                    <span class="ml-2">Interactive AI Demo</span>
                 </div>
-                <div class="text-slate-300 leading-relaxed whitespace-pre-line" x-html="chatResponse"></div>
+                
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                    Meet <span class="text-blue-600">Vera</span>: Feedback Intelligence
+                    <br><span class="text-slate-900">That Remembers Everything</span>
+                </h1>
+                
+                <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
+                    Submit feedback, ask questions, and get insights powered by Hindsight's long-term memory. 
+                    The more feedback it remembers, the more useful its analysis becomes.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="/demo" class="w-full sm:w-auto px-8 py-4 text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-shadow shadow-lg hover:shadow-xl">
+                        Start Interactive Demo
+                    </a>
+                    <a href="/ask" class="w-full sm:w-auto px-8 py-4 text-lg font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-xl transition">
+                        Ask Vera
+                    </a>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="py-16 bg-white rounded-2xl shadow-sm border border-gray-100 mb-12">
+                <h2 class="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-12">How It Works</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center p-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 mb-4">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Submit Feedback</h3>
+                        <p class="text-gray-600">Submit individual feedback or import CSV/JSON datasets. Each piece is stored in Hindsight's memory with full context.</p>
+                    </div>
+                    <div class="text-center p-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-purple-100 text-purple-600 mb-4">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.734-.988-2.386l-.548-.547z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Ask Questions</h3>
+                        <p class="text-gray-600">Ask the agent anything about user feedback. It recalls relevant historical memories and reasons over them.</p>
+                    </div>
+                    <div class="text-center p-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-green-100 text-green-600 mb-4">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Get Insights</h3>
+                        <p class="text-gray-600">Receive evidence-based answers with citations. See how problems evolve over time with historical context.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Features -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        <svg class="w-6 h-6 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        Core Capabilities
+                    </h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> Historical trend analysis with temporal reasoning</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> Sentiment tracking across product areas</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> Emerging issue detection</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> Before/after comparison (pre/post product changes)</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> Evidence citations for every claim</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> Multi-strategy recall (semantic, keyword, graph, temporal)</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        <svg class="w-6 h-6 text-purple-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                        </svg>
+                        Hindsight Memory Features
+                    </h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> <strong>Observations:</strong> Consolidated, evidence-backed beliefs</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> <strong>TEMPR Recall:</strong> 4-way parallel retrieval</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> <strong>Temporal queries:</strong> "What changed since March?"</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> <strong>Entity graphs:</strong> Connect related feedback</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> <strong>Per-tag scoping:</strong> Isolated observations per product area</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2">✓</span> <strong>Embedded server:</strong> Runs locally, no external dependencies</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Demo Flow Preview -->
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 sm:p-12 text-white">
+                <h2 class="text-2xl sm:text-3xl font-bold mb-4">The Demo Flow</h2>
+                <p class="text-blue-100 mb-8 max-w-2xl">Experience the power of memory in 4 steps:</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3 text-2xl font-bold">1</div>
+                        <h4 class="font-semibold mb-1">Recent Only</h4>
+                        <p class="text-blue-100 text-sm">Load last month's feedback</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3 text-2xl font-bold">2</div>
+                        <h4 class="font-semibold mb-1">Ask Question</h4>
+                        <p class="text-blue-100 text-sm">"Main problems?"</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3 text-2xl font-bold">3</div>
+                        <h4 class="font-semibold mb-1">Load History</h4>
+                        <p class="text-blue-100 text-sm">Add 4 months of data</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-3 text-2xl font-bold">4</div>
+                        <h4 class="font-semibold mb-1">Ask Again</h4>
+                        <p class="text-blue-100 text-sm">See the difference!</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
-
-    <!-- Architecture Section -->
-    <section id="architecture" class="py-16 bg-slate-950 border-t border-slate-800">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            <div class="text-center max-w-3xl mx-auto">
-                <span class="text-xs font-bold text-blue-400 tracking-wider uppercase">System Design</span>
-                <h2 class="text-3xl font-extrabold text-white mt-1">Dual-Mode Agentic Memory Architecture</h2>
-                <p class="text-slate-400 text-sm mt-2">Vera bridges incoming unstructured complaints with continuous long-term observation graphs.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
-                <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-                    <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold text-lg">1</div>
-                    <h3 class="font-bold text-white text-base">Continuous Ingestion</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">Incoming Zendesk tickets and in-app feedback are normalized into ISO UTC timestamps, categorized into product areas, and passed to Hindsight RETAIN.</p>
-                </div>
-                <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-                    <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold text-lg">2</div>
-                    <h3 class="font-bold text-white text-base">Hindsight Memory Bank</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">Memories are organized across entity graphs and chronological timelines, forming associative observations that connect multi-month patterns.</p>
-                </div>
-                <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-lg">3</div>
-                    <h3 class="font-bold text-white text-base">TEMPR Recall & Reflect</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">Multi-strategy parallel recall surfaces verbatim citations with exact dates, sources, and user IDs—eliminating hallucinations.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="py-12 border-t border-slate-800 text-center text-xs text-slate-500 space-y-2">
-        <div>Vera: AI Feedback Intelligence Agent • Powered by Hindsight</div>
-        <div>Built with FastAPI, Hindsight, Tailwind CSS, Alpine.js, and Chart.js</div>
+    <footer class="bg-white border-t border-slate-200 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div>
+                <strong>Vera</strong> • AI Feedback Intelligence Agent • Powered by Hindsight
+            </div>
+            <div class="flex items-center gap-4">
+                <span>FastAPI</span>
+                <span>•</span>
+                <span>Hindsight Memory Server</span>
+                <span>•</span>
+                <span>TEMPR Recall Engine</span>
+            </div>
+        </div>
     </footer>
-
-    <!-- Alpine App Logic -->
-    <script>
-        function veraApp() {
-            return {
-                step: 1,
-                memCount: 0,
-                recentLoaded: false,
-                histLoaded: false,
-                query2Output: false,
-                query4Output: false,
-                chart: null,
-                queryInput: '',
-                chatResponse: '',
-                chatMode: 'standard',
-
-                initChart() {
-                    const ctx = document.getElementById('memoryChart');
-                    if (!ctx) return;
-                    this.chart = new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            labels: ['Baseline (0)', 'Step 1 (Recent)', 'Step 3 (Historical 4-Mo)'],
-                            datasets: [{
-                                label: 'Hindsight Retained Observations',
-                                data: [0, 0, 0],
-                                borderColor: '#3b82f6',
-                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                                borderWidth: 3,
-                                fill: true,
-                                tension: 0.35,
-                                pointBackgroundColor: '#8b5cf6',
-                                pointRadius: 5
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: { legend: { display: false } },
-                            scales: {
-                                y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } },
-                                x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
-                            }
-                        }
-                    });
-                },
-
-                updateChart(data) {
-                    if (this.chart) {
-                        this.chart.data.datasets[0].data = data;
-                        this.chart.update('active');
-                    }
-                },
-
-                resetDemo() {
-                    this.step = 1;
-                    this.memCount = 0;
-                    this.recentLoaded = false;
-                    this.histLoaded = false;
-                    this.query2Output = false;
-                    this.query4Output = false;
-                    this.updateChart([0, 0, 0]);
-                },
-
-                loadRecent() {
-                    this.recentLoaded = true;
-                    this.memCount = 60;
-                    this.updateChart([0, 60, 60]);
-                },
-
-                runQuery2() {
-                    this.query2Output = true;
-                },
-
-                loadHistorical() {
-                    this.histLoaded = true;
-                    this.memCount = 285;
-                    this.updateChart([0, 60, 285]);
-                },
-
-                runQuery4() {
-                    this.query4Output = true;
-                },
-
-                submitChat(mode) {
-                    this.chatMode = mode === 'reflect' ? '⚡ areflect() Deep Analysis' : 'TEMPR Recall';
-                    const q = this.queryInput.toLowerCase();
-                    if (q.includes('pdf')) {
-                        this.chatResponse = `<strong>Chronological Trajectory of PDF Uploads (Jan - Apr 2025):</strong><br><br>
-1. <strong>January 2025:</strong> Users noted initial 30s latency on contracts (Feedback #102).<br>
-2. <strong>February 2025:</strong> Latency persisted without engineering action.<br>
-3. <strong>March 2025 (Breaking Point):</strong> v2.4 deploy tightened multipart upload timeouts; 504 Gateway errors escalated.<br>
-4. <strong>April 2025:</strong> Critical workflow blocker with near-100% failure rate.<br><br>
-<strong>Action Plan:</strong> Roll back March networking proxy limits and expand buffer size.`;
-                    } else if (q.includes('login') || q.includes('sso')) {
-                        this.chatResponse = `<strong>Authentication Feedback: Pre-SSO vs Post-SSO:</strong><br><br>
-• <strong>Jan - Mar 2025 (Pre-SSO):</strong> Login was the #2 negative complaint (42 tickets citing 2FA loops & password reset failures).<br>
-• <strong>April 2025 (Post-SSO):</strong> Complaints dropped by 92% following SAML Okta integration. 14 positive reviews recorded.<br><br>
-<strong>Conclusion:</strong> Authentication refactor was a verified product success.`;
-                    } else {
-                        this.chatResponse = `<strong>Negative Feedback Breakdown:</strong><br><br>
-1. <strong>PDF Upload (46%):</strong> Severe regression stemming from March release.<br>
-2. <strong>Billing / Invoice Exports (18%):</strong> Export timeouts on large tables.<br>
-3. <strong>Notifications (12%):</strong> Minor mobile push delay.<br><br>
-<em>Evidence drawn from 285 verified Hindsight memories.</em>`;
-                    }
-                }
-            }
-        }
-    </script>
 </body>
 </html>
