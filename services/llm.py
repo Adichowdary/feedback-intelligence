@@ -62,7 +62,15 @@ def get_hindsight_client() -> HindsightClient:
         if not url:
             server = get_hindsight_server()
             url = getattr(server, "url", None) or "http://127.0.0.1:8888"
-        _hindsight_client = HindsightClient(base_url=url)
+        
+        # Add auth header for Hindsight Cloud if API key is configured
+        if settings.HINDSIGHT_URL and settings.HINDSIGHT_API_KEY and settings.HINDSIGHT_API_KEY.startswith("hsk_"):
+            _hindsight_client = HindsightClient(
+                base_url=url,
+                api_key=settings.HINDSIGHT_API_KEY
+            )
+        else:
+            _hindsight_client = HindsightClient(base_url=url)
     
     return _hindsight_client
 

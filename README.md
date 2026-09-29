@@ -2,6 +2,14 @@
 > **AI-powered product feedback analysis with Hindsight long-term memory.**  
 > *Built for HackwithHyderabad 3.0 • Track: Agentic Memory & Reasoning*
 
+<p align="left">
+  <img src="https://img.shields.io/badge/Powered%20by-Hindsight-8b5cf6?style=for-the-badge&logo=brain&logoColor=white" alt="Powered by Hindsight" />
+  <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.10+" />
+  <img src="https://img.shields.io/badge/Tests-34%20Passed-10b981?style=for-the-badge&logo=pytest&logoColor=white" alt="Tests" />
+  <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License" />
+</p>
+
 ---
 
 ## 🌟 Overview: The Problem & The Solution

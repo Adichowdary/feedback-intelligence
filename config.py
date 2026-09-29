@@ -1,4 +1,4 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional
 import os
 
@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     HINDSIGHT_LLM_PROVIDER: str = "openai"
     HINDSIGHT_LLM_MODEL: str = "gpt-4o-mini"
     HINDSIGHT_LLM_API_KEY: Optional[str] = None
+    HINDSIGHT_API_KEY: Optional[str] = None
     
     # OpenAI Codex Configuration (ChatGPT Plus/Pro subscription)
     HINDSIGHT_CODEX_MODEL: str = "gpt-5.4-mini"
@@ -27,10 +28,12 @@ class Settings(BaseSettings):
     # Optional: connect to a remote Hindsight instance (e.g. Hindsight Cloud URL)
     HINDSIGHT_URL: Optional[str] = None
     
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        case_sensitive = True
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=True,
+        extra="ignore",
+    )
 
 
 settings = Settings()

@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "feedback-intelligence"
+version = "1.0.0"
+description = "User Feedback Intelligence Agent with Hindsight Memory"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.pytest.ini_options]
+timeout = 300
+timeout_method = "thread"
+addopts = "-v --tb=short --ignore=tests/test_demo.py"
+python_files = ["test_in_process.py", "test_*.py"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
